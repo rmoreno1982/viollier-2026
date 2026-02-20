@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Internacional — VYAA Liquidadores de Seguros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
+
+  <style>
+    :root {
+      --primary: #001f3f;
+      --primary-light: #0077cc;
+      --accent: #00aaff;
+      --text: #1e293b;
+      --gray: #64748b;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --dark: #0f172a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text);
+      background: var(--dark);
+      line-height: 1.7;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-integrated {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+    }
+
+    .logo img {
+      height: 80px;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .top-line {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-flags {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .lang-flags a {
+      font-size: 1.8rem;
+      transition: transform 0.2s, opacity 0.2s;
+      opacity: 0.9;
+    }
+
+    .lang-flags a:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .phone-link {
+      color: var(--primary-light);
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--primary-light);
+    }
+
+    .btn {
+      padding: 1rem 2.6rem;
+      border-radius: 50px;
+      font-size: 1.12rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.35s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--primary-light);
+      color: white;
+      border: 2px solid var(--primary-light);
+    }
+
+    .btn-primary:hover {
+      background: #0062a5;
+      transform: translateY(-3px);
+    }
+
+    .btn-outline-dark {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: white;
+    }
+
+    .btn-outline-dark:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Hero Internacional */
+    .hero-int {
+      padding: 180px 0 100px;
+      background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #001f3f 100%);
+      position: relative;
+      overflow: hidden;
+      color: white;
+    }
+
+    .hero-int::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(0, 170, 255, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-int-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .hero-int h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-int h1 span {
+      color: var(--accent);
+    }
+
+    .hero-int p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+    }
+
+    .adjusteck-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.2rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .adjusteck-badge i {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .adjusteck-badge div {
+      text-align: left;
+    }
+
+    .adjusteck-badge strong {
+      display: block;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .adjusteck-badge span {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    /* Stats hero */
+    .hero-int-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .hero-stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+    }
+
+    .hero-stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 0.4rem;
+    }
+
+    /* Mapa grande */
+    .mapa-section {
+      padding: 80px 0;
+      background: #050e1a;
+    }
+
+    .mapa-section h2 {
+      text-align: center;
+      color: white;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .mapa-section h2::after {
+      content: '';
+      width: 80px;
+      height: 5px;
+      background: var(--accent);
+      display: block;
+      margin: 1rem auto 0;
+      border-radius: 3px;
+    }
+
+    .mapa-section p.sub {
+      text-align: center;
+      color: #64748b;
+      font-size: 1.1rem;
+      margin-bottom: 4rem;
+    }
+
+    .world-map-container {
+      position: relative;
+      width: 100%;
+      background: #0a1628;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    }
+
+    .world-map-container svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .world-map-container .leaflet-tile {
+      filter: brightness(1.4) contrast(0.9);
+    }
+
+    .custom-popup .leaflet-popup-content-wrapper {
+      background: rgba(0, 31, 63, 0.95);
+      border: 1px solid rgba(0, 170, 255, 0.3);
+      border-radius: 10px;
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .custom-popup .leaflet-popup-tip {
+      background: rgba(0, 31, 63, 0.95);
+    }
+
+    /* Regiones */
+    .regiones-section {
+      padding: 80px 0;
+      background: var(--dark);
+    }
+
+    .regiones-section h2 {
+      text-align: center;
+      color: white;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .regiones-section h2::after {
+      content: '';
+      width: 80px;
+      height: 5px;
+      background: var(--accent);
+      display: block;
+      margin: 1rem auto 3rem;
+      border-radius: 3px;
+    }
+
+    .regiones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .region-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.3s;
+    }
+
+    .region-card:hover {
+      background: rgba(0, 170, 255, 0.06);
+      border-color: rgba(0, 170, 255, 0.2);
+      transform: translateY(-6px);
+    }
+
+    .region-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .region-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(0, 119, 204, 0.15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .region-card h3 {
+      color: white;
+      font-size: 1.4rem;
+    }
+
+    .region-card .paises {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .pais-tag {
+      background: rgba(0, 119, 204, 0.12);
+      border: 1px solid rgba(0, 119, 204, 0.2);
+      color: #94a3b8;
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .pais-tag:hover {
+      background: rgba(0, 170, 255, 0.15);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #001f3f, #003366);
+      text-align: center;
+      color: white;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      background: #050e1a;
+      color: #cbd5e1;
+      padding: 4rem 0 2rem;
+      border-top: 1px solid #0f1e2e;
+      text-align: center;
+    }
+
+    footer a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--primary-light);
+    }
+
+    @media (max-width: 768px) {
+      .hero-int-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero-int-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><img src="logo-viollier.png" alt="VYAA" style="height:80px;"></div>
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#" title="Español" aria-label="Español"><span class="fi fi-es"></span></a>
+              <a href="#" title="English" aria-label="English"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="tel:+56223784300" class="phone-link">
+              <i class="fas fa-phone-alt"></i> +56 2 2378 4300
+            </a>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li><a href="#">Servicios y Equipos</a></li>
+              <li><a href="#">Sucursales</a></li>
+              <li><a href="internacional.html" class="active">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-int">
+    <div class="container">
+      <div class="hero-int-content">
+        <div>
+          <h1>Cobertura <span>Global</span> para tus Siniestros</h1>
+          <p>A través de nuestra alianza estratégica con Adjusteck LLC, ofrecemos capacidad de respuesta en más de 40
+            países en los 5 continentes.</p>
+
+          <div class="adjusteck-badge">
+            <i class="fas fa-handshake"></i>
+            <div>
+              <strong>Alianza con Adjusteck LLC</strong>
+              <span>Londres, Reino Unido · +40 años de experiencia internacional</span>
+            </div>
+          </div>
+
+          <div class="hero-int-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-num">+40</div>
+              <div class="hero-stat-label">Países</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">5</div>
+              <div class="hero-stat-label">Continentes</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">+40</div>
+              <div class="hero-stat-label">Años Adjusteck</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Mini mapa decorativo en hero -->
+          <svg viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg"
+            style="width:100%;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,0.5);">
+            <rect width="600" height="350" fill="#0a1628" rx="20" />
+            <path d="M55,40 L110,36 L125,55 L130,90 L115,110 L100,125 L88,130 L72,120 L58,100 L48,75 Z" fill="#0e3a6e"
+              opacity="0.9" />
+            <path d="M93,130 L110,125 L118,145 L112,162 L98,166 L88,153 Z" fill="#0e3a6e" opacity="0.9" />
+            <path d="M97,166 L118,162 L132,178 L138,218 L134,258 L122,282 L108,290 L95,278 L85,250 L83,210 L88,180 Z"
+              fill="#0e3a6e" opacity="0.9" />
+            <path d="M268,34 L300,30 L315,42 L322,58 L312,74 L294,80 L276,76 L262,64 L258,48 Z" fill="#0e3a6e"
+              opacity="0.9" />
+            <path
+              d="M274,82 L308,78 L330,92 L338,126 L332,162 L318,188 L300,202 L282,198 L266,180 L258,148 L260,112 L267,90 Z"
+              fill="#0e3a6e" opacity="0.9" />
+            <path d="M322,32 L418,28 L462,42 L480,66 L476,98 L458,116 L428,124 L390,120 L356,112 L332,90 L320,68 Z"
+              fill="#0e3a6e" opacity="0.9" />
+            <path d="M440,198 L475,190 L494,202 L500,224 L490,244 L468,250 L448,242 L438,222 Z" fill="#0e3a6e"
+              opacity="0.9" />
+
+            <!-- Puntos -->
+            <circle cx="80" cy="78" r="5" fill="#00aaff" opacity="0.9">
+              <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="100" cy="100" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="103" cy="190" r="5" fill="#00aaff" opacity="0.9">
+              <animate attributeName="r" values="4;7;4" dur="2.5s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="113" cy="240" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="278" cy="50" r="6" fill="#00aaff" opacity="1">
+              <animate attributeName="r" values="5;8;5" dur="1.8s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="295" cy="65" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="284" cy="110" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="302" cy="148" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="356" cy="68" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="390" cy="72" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="428" cy="82" r="4" fill="#00aaff" opacity="0.7" />
+            <circle cx="455" cy="96" r="5" fill="#00aaff" opacity="0.9">
+              <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="460" cy="218" r="5" fill="#00aaff" opacity="0.9" />
+
+            <!-- Chile -->
+            <circle cx="107" cy="265" r="8" fill="#ff3d00">
+              <animate attributeName="r" values="6;10;6" dur="1.5s" repeatCount="indefinite" />
+            </circle>
+            <text x="118" y="263" fill="white" font-size="10" font-family="Montserrat,sans-serif"
+              font-weight="bold">Chile</text>
+
+            <!-- Londres -->
+            <circle cx="276" cy="48" r="8" fill="#ff3d00">
+              <animate attributeName="r" values="6;10;6" dur="1.8s" repeatCount="indefinite" />
+            </circle>
+            <text x="287" y="46" fill="white" font-size="10" font-family="Montserrat,sans-serif"
+              font-weight="bold">Londres</text>
+
+            <!-- Línea -->
+            <path d="M107,265 Q190,80 276,48" stroke="#00aaff" stroke-width="1.5" fill="none" stroke-dasharray="5,4"
+              opacity="0.5" />
+
+            <text x="300" y="330" text-anchor="middle" fill="#334155" font-size="11"
+              font-family="Open Sans,sans-serif">Presencia en +40 países</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa Grande -->
+  <section class="mapa-section">
+    <div class="container">
+      <h2>Nuestra Presencia Mundial</h2>
+      <p class="sub">Haz clic sobre los puntos para ver cada país</p>
+
+      <div class="world-map-container" id="mapContainer">
+        <rect width="1100" height="560" fill="#0a1628" />
+
+        <div id="leafletMap" style="height:580px; border-radius:20px; overflow:hidden;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Regiones -->
+  <section class="regiones-section">
+    <div class="container">
+      <h2>Presencia por Región</h2>
+
+      <div class="regiones-grid">
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-americas"></i></div>
+            <h3>América del Norte</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Estados Unidos</span>
+            <span class="pais-tag">Canadá</span>
+            <span class="pais-tag">México</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-americas"></i></div>
+            <h3>América del Sur</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Chile ★</span>
+            <span class="pais-tag">Brasil</span>
+            <span class="pais-tag">Argentina</span>
+            <span class="pais-tag">Colombia</span>
+            <span class="pais-tag">Perú</span>
+            <span class="pais-tag">Venezuela</span>
+            <span class="pais-tag">Ecuador</span>
+            <span class="pais-tag">Uruguay</span>
+            <span class="pais-tag">Bolivia</span>
+            <span class="pais-tag">Paraguay</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-europe"></i></div>
+            <h3>Europa</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Reino Unido ★</span>
+            <span class="pais-tag">Alemania</span>
+            <span class="pais-tag">Francia</span>
+            <span class="pais-tag">España</span>
+            <span class="pais-tag">Italia</span>
+            <span class="pais-tag">Países Bajos</span>
+            <span class="pais-tag">Polonia</span>
+            <span class="pais-tag">Suecia</span>
+            <span class="pais-tag">Noruega</span>
+            <span class="pais-tag">Austria</span>
+            <span class="pais-tag">Rumanía</span>
+            <span class="pais-tag">Turquía</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-africa"></i></div>
+            <h3>África y Medio Oriente</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Marruecos</span>
+            <span class="pais-tag">Nigeria</span>
+            <span class="pais-tag">Kenia</span>
+            <span class="pais-tag">Sudáfrica</span>
+            <span class="pais-tag">Arabia Saudita</span>
+            <span class="pais-tag">Emiratos Árabes</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-asia"></i></div>
+            <h3>Asia</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">China</span>
+            <span class="pais-tag">Japón</span>
+            <span class="pais-tag">India</span>
+            <span class="pais-tag">Singapur</span>
+            <span class="pais-tag">Corea del Sur</span>
+            <span class="pais-tag">Pakistán</span>
+            <span class="pais-tag">Bangladesh</span>
+            <span class="pais-tag">Sri Lanka</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe"></i></div>
+            <h3>Oceanía</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Australia</span>
+            <span class="pais-tag">Nueva Zelanda</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Necesita cobertura internacional?</h2>
+      <p>Nuestro equipo y la red Adjusteck están listos para gestionar su siniestro en cualquier parte del mundo.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn btn-primary"><i class="fas fa-envelope" style="margin-right:0.8rem;"></i>Contactar</a>
+        <a href="index.html" class="btn btn-outline-dark"><i class="fas fa-arrow-left"
+            style="margin-right:0.8rem;"></i>Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p style="color:#334155;">© 2026 VYAA Liquidadores de Seguros · <a href="#">claims@vyaa.cl</a> · +56 2 2378 4300
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script>
+    // Mapa Leaflet con tileset oscuro
+    const map = L.map('leafletMap', {
+      center: [20, 10],
+      zoom: 2,
+      minZoom: 2,
+      maxZoom: 5,
+      scrollWheelZoom: false,
+      worldCopyJump: true,
+      attributionControl: false  // ← elimina el control con la bandera
+    });
+
+    // Tileset más claro y con mejor contraste
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Attribution limpio sin imagen
+    L.control.attribution({
+      prefix: '<span style="color:#334155;">© OpenStreetMap · © CARTO</span>'
+    }).addTo(map);
+
+    // Icono personalizado azul
+    function makeIcon(color, size) {
+      return L.divIcon({
+        className: '',
+        html: `<div style="
+          width:${size}px; height:${size}px;
+          background:${color};
+          border-radius:50%;
+          border:2px solid rgba(255,255,255,0.4);
+          box-shadow:0 0 ${size}px ${color};
+          animation: pulse-map 2s infinite;
+        "></div>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2]
+      });
+    }
+
+    // Puntos de presencia [lat, lng, nombre, region, tipo]
+    const presencia = [
+      // América del Norte
+      [37.09, -95.71, 'Estados Unidos', 'América del Norte', 'corresponsal'],
+      [56.13, -106.35, 'Canadá', 'América del Norte', 'corresponsal'],
+      [23.63, -102.55, 'México', 'América Central', 'corresponsal'],
+      // América del Sur
+      [-33.45, -70.67, 'Chile', 'América del Sur', 'oficina'],
+      [4.57, -74.29, 'Colombia', 'América del Sur', 'corresponsal'],
+      [-14.24, -51.93, 'Brasil', 'América del Sur', 'corresponsal'],
+      [-38.42, -63.62, 'Argentina', 'América del Sur', 'corresponsal'],
+
+      [-9.19, -75.02, 'Perú', 'América del Sur', 'corresponsal'],
+      [-16.29, -63.59, 'Bolivia', 'América del Sur', 'corresponsal'],
+      [-23.44, -58.44, 'Paraguay', 'América del Sur', 'corresponsal'],
+      [-32.52, -55.77, 'Uruguay', 'América del Sur', 'corresponsal'],
+      [1.65, -75.38, 'Ecuador', 'América del Sur', 'corresponsal'],
+      [6.42, -66.59, 'Venezuela', 'América del Sur', 'corresponsal'],
+      // Europa
+      [51.51, -0.13, 'Londres — Adjusteck LLC', 'Europa', 'oficina'],
+      [51.17, 10.45, 'Alemania', 'Europa', 'corresponsal'],
+      [46.23, 2.21, 'Francia', 'Europa', 'corresponsal'],
+      [40.46, -3.75, 'España', 'Europa', 'corresponsal'],
+      [41.87, 12.57, 'Italia', 'Europa', 'corresponsal'],
+      [52.13, 5.29, 'Países Bajos', 'Europa', 'corresponsal'],
+      [51.92, 19.15, 'Polonia', 'Europa', 'corresponsal'],
+      [47.52, 14.55, 'Austria', 'Europa', 'corresponsal'],
+      [45.94, 24.97, 'Rumanía', 'Europa', 'corresponsal'],
+      [60.47, 8.47, 'Noruega', 'Europa', 'corresponsal'],
+      [60.13, 18.64, 'Suecia', 'Europa', 'corresponsal'],
+      [38.96, 35.24, 'Turquía', 'Europa/Asia', 'corresponsal'],
+      // África
+      [31.79, -7.09, 'Marruecos', 'África', 'corresponsal'],
+      [9.08, 8.68, 'Nigeria', 'África', 'corresponsal'],
+      [-0.02, 37.91, 'Kenia', 'África', 'corresponsal'],
+      [-30.56, 22.94, 'Sudáfrica', 'África', 'corresponsal'],
+      // Medio Oriente
+      [23.89, 45.08, 'Arabia Saudita', 'Medio Oriente', 'corresponsal'],
+      [23.42, 53.85, 'Emiratos Árabes', 'Medio Oriente', 'corresponsal'],
+      // Asia
+      [20.59, 78.96, 'India', 'Asia', 'corresponsal'],
+      [30.38, 69.35, 'Pakistán', 'Asia', 'corresponsal'],
+      [35.86, 104.20, 'China', 'Asia', 'corresponsal'],
+      [35.91, 127.77, 'Corea del Sur', 'Asia', 'corresponsal'],
+      [36.20, 138.25, 'Japón', 'Asia', 'corresponsal'],
+      [1.35, 103.82, 'Singapur', 'Asia', 'corresponsal'],
+      [23.68, 90.36, 'Bangladesh', 'Asia', 'corresponsal'],
+      [7.87, 80.77, 'Sri Lanka', 'Asia', 'corresponsal'],
+      // Oceanía
+      [-25.27, 133.78, 'Australia', 'Oceanía', 'corresponsal'],
+      [-40.90, 174.89, 'Nueva Zelanda', 'Oceanía', 'corresponsal'],
+    ];
+
+    presencia.forEach(([lat, lng, nombre, region, tipo]) => {
+      const isMain = tipo === 'oficina';
+      const color = isMain ? '#ff3d00' : '#00aaff';
+      const size = isMain ? 18 : 12;
+      const marker = L.marker([lat, lng], { icon: makeIcon(color, size) }).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family:'Open Sans',sans-serif; min-width:150px;">
+          <strong style="color:#0077cc; font-size:1rem;">${nombre}</strong><br>
+          <span style="color:#64748b; font-size:0.85rem;">${region}</span><br>
+          <span style="color:#94a3b8; font-size:0.8rem;">${isMain ? '★ Oficina principal' : 'Corresponsal'}</span>
+        </div>
+      `, { className: 'custom-popup' });
+    });
+
+    // Línea Chile - Londres
+    const latlngs = [[-33.45, -70.67], [51.51, -0.13]];
+    L.polyline(latlngs, {
+      color: '#00aaff',
+      weight: 1.5,
+      dashArray: '8, 6',
+      opacity: 0.5
+    }).addTo(map);
+  </script>
+
+</body>
+
+</html>

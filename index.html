@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VYAA - Liquidadores de Seguros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
+
+  <style>
+    :root {
+      --primary: #001f3f;
+      --primary-light: #0077cc;
+      --accent: #00aaff;
+      --text: #1e293b;
+      --gray: #64748b;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --dark: #0f172a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text);
+      background: var(--light);
+      line-height: 1.7;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-integrated {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+    }
+
+    .logo img {
+      height: 80px;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .top-line {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-flags {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .lang-flags a {
+      font-size: 1.4rem;
+      transition: transform 0.2s, opacity 0.2s;
+      opacity: 0.9;
+    }
+
+    .lang-flags a:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .phone-link {
+      color: var(--primary-light);
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .phone-link:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--primary-light);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: white;
+      min-width: 280px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      top: 100%;
+      left: 0;
+      padding: 1rem 0;
+      margin-top: 8px;
+      z-index: 1001;
+    }
+
+    .dropdown-content a {
+      color: var(--text);
+      padding: 0.8rem 1.5rem;
+      display: block;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--light);
+      color: var(--primary-light);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Hero moderno — foto de fondo + dos columnas */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      color: white;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background: url('https://www.e-viollier.cl/wp-content/uploads/2019/08/slider1-1.jpg') center/cover no-repeat;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(0, 20, 50, 0.92) 0%, rgba(0, 31, 63, 0.80) 55%, rgba(0, 50, 90, 0.60) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 170px 24px 80px;
+    }
+
+    .hero-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    /* Columna izquierda */
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+      opacity: 0.9;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.4);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1.25;
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+    }
+
+    .hero-highlight {
+      color: var(--accent);
+      position: relative;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      opacity: 0.85;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-desc strong {
+      color: white;
+      opacity: 1;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn-hero-contact {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      color: white;
+      padding: 1rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-hero-contact:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: white;
+      transform: translateY(-3px);
+    }
+
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .trust-item {
+      text-align: center;
+    }
+
+    .trust-num {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .trust-label {
+      font-size: 0.78rem;
+      opacity: 0.65;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .trust-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Columna derecha — mockup */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .phone-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-glow {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(0, 170, 255, 0.35) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+    }
+
+    .phone-mockup {
+      width: 220px;
+      height: 440px;
+      background: linear-gradient(160deg, #1a2a3a, #0d1b2a);
+      border-radius: 36px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: floatPhone 4s ease-in-out infinite;
+    }
+
+    @keyframes floatPhone {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .phone-screen {
+      position: absolute;
+      inset: 28px 8px 8px;
+      background: linear-gradient(180deg, #001f3f 0%, #012a52 100%);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .phone-screen-inner {
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .app-ui-bar {
+      height: 4px;
+      background: linear-gradient(to right, var(--accent), #0055aa);
+      border-radius: 2px;
+      margin-bottom: 4px;
+    }
+
+    .app-ui-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .app-ui-card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+    }
+
+    .app-ui-card i {
+      color: var(--accent);
+      margin-right: 5px;
+    }
+
+    .app-ui-card small {
+      font-size: 0.6rem;
+      opacity: 0.65;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .app-ui-card--green i {
+      color: #22d3a5;
+    }
+
+    .app-badge-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.55;
+      font-weight: 600;
+    }
+
+    .app-badges-hero {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .app-badge-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 0.7rem 1.4rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+      backdrop-filter: blur(6px);
+    }
+
+    .app-badge-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .app-badge-btn i {
+      font-size: 1.6rem;
+    }
+
+    .app-badge-btn span {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .app-badge-btn small {
+      font-size: 0.65rem;
+      opacity: 0.65;
+    }
+
+    .app-badge-btn span>*:last-child {
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+      }
+
+      .hero-eyebrow {
+        justify-content: center;
+      }
+
+      .hero-desc {
+        margin: 0 auto 2.5rem;
+      }
+
+      .hero-ctas {
+        justify-content: center;
+      }
+
+      .hero-trust {
+        justify-content: center;
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .phone-mockup {
+        width: 180px;
+        height: 360px;
+      }
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2.6rem;
+      border-radius: 50px;
+      font-size: 1.12rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.35s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--primary-light);
+      color: white;
+      border: 2px solid var(--primary-light);
+    }
+
+    .btn-primary:hover {
+      background: #0062a5;
+      transform: translateY(-5px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .prev:hover,
+    .next:hover {
+      background: rgba(0, 0, 0, 0.65);
+      transform: scale(1.1);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      background: var(--primary);
+      padding: 2.5rem 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-item {
+      color: white;
+      padding: 1rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+
+    /* Secciones generales */
+    .section {
+      padding: 90px 0;
+      overflow-x: hidden;
+    }
+
+    section h2 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 3.2rem;
+      margin-bottom: 6rem;
+      position: relative;
+    }
+
+    section h2::after {
+      content: '';
+      width: 110px;
+      height: 6px;
+      background: var(--primary-light);
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+
+    section.sucursales h2 {
+      color: var(--white);
+    }
+
+    /* FIX: Quiénes Somos — título alineado a la izquierda */
+    .quienes-container h2 {
+      text-align: left;
+    }
+
+    .quienes-container h2::after {
+      left: 0;
+      transform: translateX(0);
+    }
+
+    /* Quiénes Somos */
+    .quienes-section {
+      position: relative;
+      background: var(--light);
+    }
+
+    .quienes-bg {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 40%;
+      background: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=90') center/cover;
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    .quienes-container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .quienes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+      align-items: center;
+    }
+
+    .quienes p {
+      font-size: 1.28rem;
+      margin-bottom: 4rem;
+      color: var(--gray);
+      max-width: 760px;
+    }
+
+    .mision-vision {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .card-mv {
+      background: rgba(255, 255, 255, 0.92);
+      padding: 2.2rem 2.5rem;
+      border-radius: 28px;
+      box-shadow: 0 14px 50px rgba(0, 0, 0, 0.12);
+      transition: all 0.4s ease;
+      backdrop-filter: blur(8px);
+      min-width: 370px;
+    }
+
+    .card-mv:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.18);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .card-mv h3 {
+      font-size: 2rem;
+      margin-bottom: 1.8rem;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .card-mv p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* Servicios */
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 3rem;
+    }
+
+    .servicio-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+      transition: all 0.4s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .servicio-card .btn {
+      margin: 1rem 0;
+    }
+
+    .servicio-card:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary-light);
+    }
+
+    .servicio-icon {
+      font-size: 5.2rem;
+      color: var(--primary-light);
+      margin-bottom: 2rem;
+    }
+
+    .servicio-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      color: var(--primary);
+    }
+
+    .servicio-card p {
+      color: var(--gray);
+      font-size: 1.08rem;
+      line-height: 1.6;
+    }
+
+    /* Carrusel aseguradoras */
+    .carousel-aseg-wrap {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding: 1rem 0;
+    }
+
+    .carousel-aseg-wrap::before,
+    .carousel-aseg-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+    }
+
+    .carousel-aseg-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, #f8fafc, transparent);
+    }
+
+    .carousel-aseg-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, #f8fafc, transparent);
+    }
+
+    .aseg-track {
+      display: flex;
+      gap: 2rem;
+      animation: scrollAseg 45s linear infinite;
+      width: max-content;
+    }
+
+    .aseg-track:hover {
+      animation-play-state: paused;
+    }
+
+    .aseg-logo {
+      flex-shrink: 0;
+      width: 240px;
+      height: 140px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .aseg-logo:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .aseg-logo img {
+      max-width: 100%;
+      max-height: 100px;
+      object-fit: contain;
+      filter: grayscale(30%);
+      transition: filter 0.3s;
+    }
+
+    .aseg-logo:hover img {
+      filter: grayscale(0%);
+    }
+
+    @keyframes scrollAseg {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Sucursales */
+    .sucursales {
+      background: var(--primary);
+      color: white;
+      padding: 140px 0;
+    }
+
+    .sucursales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.8rem 2rem;
+      margin: 5rem 0;
+    }
+
+    .sucursal-item {
+      text-align: center;
+      padding: 2.8rem 1.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .sucursal-item:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-10px);
+    }
+
+    .sucursal-item i {
+      font-size: 4.2rem;
+      margin-bottom: 1.6rem;
+      color: var(--accent);
+    }
+
+    .sucursal-item--highlight {
+      background: rgba(0, 170, 255, 0.15);
+      border: 1px solid rgba(0, 170, 255, 0.3);
+      position: relative;
+    }
+
+    .sucursal-item--highlight:hover {
+      background: rgba(0, 170, 255, 0.25);
+    }
+
+    a.sucursal-item,
+    a.sucursal-item h4,
+    a.sucursal-item p {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Modal */
+    .modal-map {
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .modal-map iframe {
+      display: block;
+      width: 100%;
+      height: 220px;
+      border: 0;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      animation: fadeIn 0.25s;
+    }
+
+    .modal-content {
+      background: white;
+      margin: 8% auto;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 520px;
+      position: relative;
+      animation: slideIn 0.3s ease;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2.5rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close-modal:hover {
+      color: var(--primary);
+    }
+
+    #modal-title {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    #modal-body p {
+      margin: 1rem 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    #modal-body strong {
+      color: var(--primary);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 15% auto;
+        padding: 2rem 1.5rem;
+        width: 92%;
+      }
+
+      .section {
+        padding: 90px 0;
+      }
+    }
+
+    /* Red Internacional Preview */
+    .red-internacional-preview {
+      background: var(--dark);
+      color: white;
+    }
+
+    .red-internacional-preview h2 {
+      color: white;
+    }
+
+    .red-internacional-preview h2::after {
+      background: var(--accent);
+    }
+
+    .red-internacional-preview p {
+      color: #94a3b8;
+    }
+
+    .red-internacional-preview p strong {
+      color: white;
+    }
+
+    .internacional-preview-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .internacional-stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .int-stat {
+      text-align: center;
+    }
+
+    .int-number {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .int-label {
+      display: block;
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    .mundial-map-wrap {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+    }
+
+    footer {
+      background: var(--dark);
+      color: #cbd5e1;
+      padding: 7rem 0 4rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    footer a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--primary-light);
+    }
+
+    footer h4 {
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    footer ul li {
+      margin-bottom: 0.6rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><img src="logo-viollier.png" alt="VYAA" style="height:80px;"></div>
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#" title="Español" aria-label="Español"><span class="fi fi-es"></span></a>
+              <a href="#" title="English" aria-label="English"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="tel:+56223784300" class="phone-link"><i class="fas fa-phone-alt"></i> +56 2 2378 4300</a>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="#">Inicio</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li class="dropdown">
+                <a href="#">Servicios y Equipos ▾</a>
+                <div class="dropdown-content">
+                  <a href="#">Crédito y Garantías</a>
+                  <a href="#">Ingeniería</a>
+                  <a href="#">Transporte y Casco</a>
+                  <a href="#">Masivo / Líneas Personales</a>
+                  <a href="#">Robo</a>
+                  <a href="#">Recursos Naturales</a>
+                  <a href="#">Responsabilidad Civil y Riesgos Financieros</a>
+                  <a href="#">Comité Ejecutivo</a>
+                  <a href="#">Eventos Catastróficos</a>
+                </div>
+              </li>
+              <li><a href="sucursales.html">Sucursales</a></li>
+              <li><a href="internacional.html">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero moderno — dos columnas -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-grid">
+
+        <!-- Izquierda: empresa + CTA -->
+        <div class="hero-left">
+          <div class="hero-eyebrow">
+            <span class="eyebrow-dot"></span>
+            Liquidadores de Seguros · Desde 1957
+          </div>
+          <h1 class="hero-title">
+            Soluciones técnicas y profesionales en
+            <span class="hero-highlight"> liquidación de siniestros</span>
+          </h1>
+          <p class="hero-desc">
+            Más de 60 años de experiencia, presencia nacional y alianza internacional. Objetividad y rigor en cada caso.
+          </p>
+          <div class="hero-ctas">
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="#" class="btn-hero-contact">
+              <i class="fas fa-phone-alt"></i> Contactar
+            </a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item">
+              <span class="trust-num">+60</span>
+              <span class="trust-label">años</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <span class="trust-num">9</span>
+              <span class="trust-label">sucursales</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <span class="trust-num">+40</span>
+              <span class="trust-label">países</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Derecha: mockup app + badges -->
+        <div class="hero-right">
+          <div class="phone-wrap">
+            <div class="phone-glow"></div>
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                <div class="phone-screen-inner">
+                  <div class="app-ui-bar"></div>
+                  <div class="app-ui-title">App Clientes</div>
+                  <div class="app-ui-card">
+                    <i class="fas fa-file-alt"></i> Siniestro #4821
+                    <small>En proceso · 78%</small>
+                  </div>
+                  <div class="app-ui-card app-ui-card--green">
+                    <i class="fas fa-check-circle"></i> Siniestro #4756
+                    <small>Liquidado</small>
+                  </div>
+                  <div class="app-ui-card">
+                    <i class="fas fa-clock"></i> Siniestro #4803
+                    <small>Pendiente revisión</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="app-badge-label">Descarga la app</div>
+          <div class="app-badges-hero">
+            <a href="#" class="app-badge-btn">
+              <i class="fab fa-apple"></i>
+              <span><small>Disponible en</small>App Store</span>
+            </a>
+            <a href="#" class="app-badge-btn">
+              <i class="fab fa-google-play"></i>
+              <span><small>Disponible en</small>Google Play</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Barra de estadísticas -->
+
+
+  <!-- Quiénes Somos -->
+  <section class="section quienes-section">
+    <div class="quienes-bg"></div>
+    <div class="container quienes-container">
+      <h2>¿Quiénes Somos?</h2>
+      <div class="quienes">
+        <div class="text-content">
+          <p>
+            Somos liquidadores de seguros con <strong>más de 60 años de trayectoria</strong> y <strong>presencia en todo
+              Chile</strong>. Brindamos servicios técnicos y profesionales en la gestión y liquidación de siniestros,
+            tanto para el mercado de personas como empresas. Contamos además con una <strong>alianza internacional con
+              Adjusteck LLC de Londres</strong>, líderes en el mercado inglés de ajuste de pérdidas.
+          </p>
+          <div class="mision-vision">
+            <div class="card-mv">
+              <h3>Nuestra Misión</h3>
+              <p>Ofrecer un servicio oportuno y profesional, basado en principios de objetividad y modernidad.</p>
+            </div>
+            <div class="card-mv">
+              <h3>Nuestra Visión</h3>
+              <p>Liderar el mercado de liquidación de seguros, destacándonos por nuestro alto nivel técnico y
+                confidencialidad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="section" style="background:#fff;">
+    <div class="container">
+      <h2>Nuestros Servicios</h2>
+      <div class="servicios-grid">
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-credit-card"></i></div>
+          <h3>Crédito y Garantías</h3>
+          <p>Gestión de pólizas de crédito interno, caución, cumplimiento y fidelidad. Análisis de incumplimientos y
+            cálculo de indemnizaciones.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-hard-hat"></i></div>
+          <h3>Ingeniería</h3>
+          <p>Especialistas en Todo Riesgo Construcción (TRC), montaje, rotura de maquinaria, equipo contratista y
+            pérdida de beneficios. Peritajes de alta complejidad.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-truck-loading"></i></div>
+          <h3>Transporte y Casco</h3>
+          <p>Liquidación de carga nacional/internacional, casco terrestre, fluvial y marítimo. Averías particulares,
+            gruesas y pérdida total.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-users"></i></div>
+          <h3>Masivo / Líneas Personales</h3>
+          <p>Gestión masiva de siniestros en seguros de personas: hogar, automóvil, accidentes personales y multirriesgo
+            para el mercado retail y bancaseguros.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-mask"></i></div>
+          <h3>Robo</h3>
+          <p>Liquidación especializada de robo, hurto y asalto en hogar, comercio y empresas. Investigación, valoración
+            de bienes y trámites con aseguradoras.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-leaf"></i></div>
+          <h3>Recursos Naturales</h3>
+          <p>Gestión de siniestros en los sectores forestal, agrícola y minero. Peritajes especializados en daños a
+            recursos naturales y evaluación de impacto ambiental.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Responsabilidad Civil y Riesgos Financieros</h3>
+          <p>RC extracontractual, contractual, profesional, patronal y general. Análisis y liquidación de pérdida de
+            beneficios, interrupción de negocio y pólizas financieras.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-briefcase"></i></div>
+          <h3>Comité Ejecutivo</h3>
+          <p>Gestión de siniestros de alta complejidad y montos relevantes. Equipo directivo dedicado a casos que
+            requieren coordinación técnica y estratégica de alto nivel.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Eventos Catastróficos</h3>
+          <p>Respuesta especializada ante sismos, inundaciones, incendios forestales y otros eventos de gran escala.
+            Coordinación nacional con equipos de emergencia.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Aseguradoras -->
+  <section class="section" style="background:#f8fafc;">
+    <div class="container">
+      <h2>Aseguradoras con las que trabajamos</h2>
+      <p style="text-align:center; max-width:820px; margin:0 auto 4rem; font-size:1.18rem; color:var(--gray);">
+        Colaboramos con más de 23 compañías de seguros para ofrecer una liquidación rápida, transparente y profesional.
+      </p>
+      <div class="carousel-aseg-wrap">
+        <div class="carousel-aseg" id="carouselAseg">
+          <div class="aseg-track" id="asegTrack">
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2023/02/fid-f.jpg" alt="FID">
+            </div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/1-aspor.jpg"
+                alt="Aspor"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/2-bci.jpg"
+                alt="BCI Seguros"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/3-cardif.jpg"
+                alt="Cardif"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/4-cesce.jpg"
+                alt="CESCE"></div>
+            <div class="aseg-logo"><img
+                src="https://www.e-viollier.cl/wp-content/uploads/2019/08/5-chilena-consolidada.jpg"
+                alt="Chilena Consolidada"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/6-Chubb.jpg"
+                alt="Chubb"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/7-coface.jpg"
+                alt="Coface"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/8-consorcio.jpg"
+                alt="Consorcio"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/9-contempora.jpg"
+                alt="Contemporá"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/10-continental.jpg"
+                alt="Continental"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/11-hdi.jpg" alt="HDI">
+            </div>
+            <div class="aseg-logo"><img
+                src="https://www.e-viollier.cl/wp-content/uploads/2019/08/12-liberty-seguros.jpg" alt="Liberty Seguros">
+            </div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/13-Mapfre.jpg"
+                alt="Mapfre"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/14-orion.jpg"
+                alt="Orion"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/15-orsan.png"
+                alt="Orsan"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/16-reale-seguros.jpg"
+                alt="Reale Seguros"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/17-renta-nacional.jpg"
+                alt="Renta Nacional"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/18-south.jpg"
+                alt="South"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/19-sura.jpg"
+                alt="SURA"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/20-zenit.jpg"
+                alt="Zenit"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/21-Zurich.jpg"
+                alt="Zurich"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/22-Santander.jpg"
+                alt="Santander"></div>
+            <!-- Duplicado para loop infinito -->
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2023/02/fid-f.jpg" alt="FID">
+            </div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/1-aspor.jpg"
+                alt="Aspor"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/2-bci.jpg"
+                alt="BCI Seguros"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/3-cardif.jpg"
+                alt="Cardif"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/4-cesce.jpg"
+                alt="CESCE"></div>
+            <div class="aseg-logo"><img
+                src="https://www.e-viollier.cl/wp-content/uploads/2019/08/5-chilena-consolidada.jpg"
+                alt="Chilena Consolidada"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/6-Chubb.jpg"
+                alt="Chubb"></div>
+            <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/7-coface.jpg"
+                alt="Coface"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sucursales -->
+  <section class="sucursales">
+    <div class="container">
+      <h2>Presencia Nacional</h2>
+      <p style="text-align:center; max-width:740px; margin:0 auto 4.5rem; font-size:1.18rem; opacity:0.85;">
+        9 sucursales directas y 8 corresponsales a lo largo de todo Chile
+      </p>
+
+      <div class="sucursales-grid"
+        style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); max-width:1100px; margin:0 auto;">
+
+        <div class="sucursal-item sucursal-item--highlight" onclick="openModal('santiago')">
+          <div
+            style="position:absolute; top:14px; right:16px; background:var(--accent); color:var(--primary); font-size:0.68rem; font-weight:800; padding:3px 10px; border-radius:50px; text-transform:uppercase; letter-spacing:0.05em;">
+            Casa Matriz</div>
+          <i class="fas fa-star"></i>
+          <h4>Santiago</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Providencia</p>
+        </div>
+
+        <div class="sucursal-item" onclick="openModal('antofagasta')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Antofagasta</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de Antofagasta</p>
+        </div>
+
+        <div class="sucursal-item" onclick="openModal('concepcion')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Concepción</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región del Biobío</p>
+        </div>
+
+        <div class="sucursal-item" onclick="openModal('temuco')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Temuco</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de La Araucanía</p>
+        </div>
+
+        <div class="sucursal-item" onclick="openModal('puertomontt')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Puerto Montt</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de los Lagos</p>
+        </div>
+
+      </div>
+
+      <div style="text-align:center; margin-top:2rem; opacity:0.6; font-size:0.95rem;">
+        + 4 sucursales y 8 corresponsales más en todo el país
+      </div>
+
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="sucursales.html" class="btn btn-primary" style="padding:1rem 3rem; font-size:1.1rem;">
+          <i class="fas fa-map-marked-alt" style="margin-right:0.5rem;"></i>Ver todas las oficinas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal sucursales -->
+  <div id="sucursalModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">×</span>
+      <h3 id="modal-title"></h3>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Red Internacional Preview -->
+  <section class="section red-internacional-preview">
+    <div class="container">
+      <h2>Red Internacional</h2>
+      <p style="text-align:center; max-width:820px; margin:-3rem auto 4rem; font-size:1.18rem; color:var(--gray);">
+        Presencia en las principales capitales y países del mundo a través de nuestra alianza con <strong>Adjusteck
+          LLC</strong>, líderes del mercado de ajuste de pérdidas en Londres.
+      </p>
+
+      <div class="internacional-preview-grid">
+        <div class="internacional-stats">
+          <div class="int-stat"><span class="int-number">+40</span><span class="int-label">Países con presencia</span>
+          </div>
+          <div class="int-stat"><span class="int-number">5</span><span class="int-label">Continentes</span></div>
+          <div class="int-stat"><span class="int-number">+40</span><span class="int-label">Años de Adjusteck LLC</span>
+          </div>
+        </div>
+        <div class="mundial-map-wrap">
+          <div id="previewMap" style="height:420px; border-radius:20px; overflow:hidden;"></div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="internacional.html" class="btn btn-primary" style="padding:1rem 3rem; font-size:1.1rem;">
+          <i class="fas fa-globe" style="margin-right:0.8rem;"></i>Ver Red Internacional Completa
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:3.5rem; margin-bottom:5rem;">
+        <div>
+          <div class="logo" style="width:100px; margin-bottom:1.5rem;"><img src="logo-V.png" style="width:100%;"></div>
+          <p style="color:#94a3b8; margin-bottom:1.8rem;">
+            Liquidadores de seguros con más de 60 años de trayectoria y presencia nacional.<br>
+            Soluciones técnicas y profesionales en gestión de siniestros.
+          </p>
+          <div style="display:flex; gap:1.6rem;">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter" style="font-size:1.7rem; color:#94a3b8;"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Enlaces Rápidos</h4>
+          <ul style="list-style:none;">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Equipos</a></li>
+            <li><a href="sucursales.html">Sucursales</a></li>
+            <li><a href="internacional.html">Red Internacional</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Ingreso Clientes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul style="list-style:none;">
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-phone-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> +56 2 2378 4300</li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-envelope"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> <a href="mailto:contacto@vyaa.cl"
+                class="__cf_email__" data-cfemail="96f5faf7fffbe5d6e0eff7f7b8f5fa">contacto@vyaa.cl</a></li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-map-marker-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> La Concepción 322, Piso 13, Providencia,
+              Santiago</li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1e293b; padding-top:2.5rem; text-align:center; color:#64748b;">
+        <p>© 2026 VYAA Liquidadores de Seguros. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script>
+    // ── Mapa Red Internacional — se inicializa solo cuando es visible ──────────
+    let previewMapInit = false;
+    const previewMapEl = document.getElementById('previewMap');
+
+    function initPreviewMap() {
+      if (previewMapInit) return;
+      previewMapInit = true;
+
+      const previewMap = L.map('previewMap', {
+        center: [20, 10],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 2,
+        scrollWheelZoom: false,
+        zoomControl: false,
+        dragging: false,
+        attributionControl: false
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(previewMap);
+
+      const mapStyle = document.createElement('style');
+      mapStyle.textContent = '#previewMap .leaflet-tile { filter: brightness(1.5) contrast(0.9); }';
+      document.head.appendChild(mapStyle);
+
+      function makePreviewIcon(color, size) {
+        return L.divIcon({
+          className: '',
+          html: `<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;border:2px solid rgba(255,255,255,0.4);box-shadow:0 0 ${size}px ${color};"></div>`,
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2]
+        });
+      }
+
+      const previewPuntos = [
+        [37.09, -95.71, 'corresponsal'], [56.13, -106.35, 'corresponsal'], [23.63, -102.55, 'corresponsal'],
+        [-33.45, -70.67, 'oficina'], [-14.24, -51.93, 'corresponsal'], [-38.42, -63.62, 'corresponsal'],
+        [4.57, -74.29, 'corresponsal'], [-9.19, -75.02, 'corresponsal'],
+        [51.51, -0.13, 'oficina'], [51.17, 10.45, 'corresponsal'], [46.23, 2.21, 'corresponsal'],
+        [40.46, -3.75, 'corresponsal'], [41.87, 12.57, 'corresponsal'], [52.13, 5.29, 'corresponsal'],
+        [31.79, -7.09, 'corresponsal'], [9.08, 8.68, 'corresponsal'], [-0.02, 37.91, 'corresponsal'], [-30.56, 22.94, 'corresponsal'],
+        [23.89, 45.08, 'corresponsal'], [23.42, 53.85, 'corresponsal'],
+        [20.59, 78.96, 'corresponsal'], [35.86, 104.20, 'corresponsal'], [36.20, 138.25, 'corresponsal'],
+        [1.35, 103.82, 'corresponsal'], [35.91, 127.77, 'corresponsal'],
+        [-25.27, 133.78, 'corresponsal'], [-40.90, 174.89, 'corresponsal']
+      ];
+
+      previewPuntos.forEach(([lat, lng, tipo]) => {
+        const isMain = tipo === 'oficina';
+        L.marker([lat, lng], { icon: makePreviewIcon(isMain ? '#ff3d00' : '#00aaff', isMain ? 14 : 10) }).addTo(previewMap);
+      });
+
+      L.polyline([[-33.45, -70.67], [51.51, -0.13]], {
+        color: '#00aaff', weight: 1.5, dashArray: '8,6', opacity: 0.5
+      }).addTo(previewMap);
+
+      setTimeout(() => previewMap.invalidateSize(), 200);
+      setTimeout(() => previewMap.invalidateSize(), 800);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { initPreviewMap(); obs.disconnect(); }
+      }, { threshold: 0.1 });
+      obs.observe(previewMapEl);
+    } else {
+      initPreviewMap();
+    }
+
+    // ── Modal sucursales ───────────────────────────────────────────────────────
+    const sucursalesData = {
+      santiago: {
+        title: "Santiago — Oficina Matriz",
+        content: `
+          <p><strong>Dirección:</strong> La Concepción 322, Piso 13, Providencia, Santiago</p>
+          <p><strong>Teléfono:</strong> +56 2 2378 4300</p>
+          <p><strong>Email:</strong> claims@vyaa.cl</p>
+          <p><strong>Horario:</strong> Lunes a Viernes 09:00 - 18:00</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-33.4260,-70.6127&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      antofagasta: {
+        title: "Antofagasta",
+        content: `
+          <p><strong>Responsable:</strong> Sra. Lisette Bulnes</p>
+          <p><strong>Dirección:</strong> Arturo Prat N° 461, Of. N° 905, Antofagasta</p>
+          <p><strong>Teléfono:</strong> (56-55) 281963 · (56-55) 2268792</p>
+          <p><strong>Email:</strong> lbulnes@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-23.6509,-70.3975&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      vina: {
+        title: "Viña del Mar",
+        content: `
+          <p><strong>Responsable:</strong> Sr. Siegfredo Starke T.</p>
+          <p><strong>Dirección:</strong> Siete Norte Nº 645, Oficina 405, Viña del Mar</p>
+          <p><strong>Teléfono:</strong> (32) 2697982</p>
+          <p><strong>Email:</strong> sstarke@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-33.0246,-71.5518&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      concepcion: {
+        title: "Concepción",
+        content: `
+          <p><strong>Responsable:</strong> Sra. Mylene Mautz</p>
+          <p><strong>Dirección:</strong> Tucapel Nº 391, Ofic. C, Edif. Montecristo, Concepción</p>
+          <p><strong>Teléfono:</strong> (56 41) 2227265 · (56 41) 2222970</p>
+          <p><strong>Email:</strong> mmautz@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-36.8201,-73.0444&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      temuco: {
+        title: "Temuco",
+        content: `
+          <p><strong>Responsable:</strong> Sra. Mylene Mautz Toro</p>
+          <p><strong>Dirección:</strong> Av. España N° 446, Of. 205, Temuco</p>
+          <p><strong>Teléfono:</strong> (56 45) 2386431 · (56 45) 2386539</p>
+          <p><strong>Email:</strong> mmautz@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-38.7359,-72.5904&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      puertomontt: {
+        title: "Puerto Montt",
+        content: `
+          <p><strong>Responsable:</strong> Sr. Rene Miño A.</p>
+          <p><strong>Dirección:</strong> Urmeneta Nº 305, Of. 402, Edif. Los Héroes, Puerto Montt</p>
+          <p><strong>Teléfono:</strong> (56-65) 2294400</p>
+          <p><strong>Email:</strong> rmino@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-41.4693,-72.9424&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      },
+      puntaarenas: {
+        title: "Punta Arenas",
+        content: `
+          <p><strong>Responsable:</strong> Sra. Gloria Loaiza</p>
+          <p><strong>Dirección:</strong> Roca N° 817, Piso 4, Of. 40, Punta Arenas</p>
+          <p><strong>Teléfono:</strong> (56 61) 2243676</p>
+          <p><strong>Email:</strong> gloaiza@vyaa.cl</p>
+          <div class="modal-map">
+            <iframe src="https://maps.google.com/maps?q=-53.1638,-70.9171&z=16&output=embed" allowfullscreen loading="lazy"></iframe>
+          </div>`
+      }
+    };
+
+    function openModal(id) {
+      if (!sucursalesData[id]) return;
+      document.getElementById('modal-title').textContent = sucursalesData[id].title;
+      document.getElementById('modal-body').innerHTML = sucursalesData[id].content;
+      document.getElementById('sucursalModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('sucursalModal').style.display = 'none';
+    }
+
+    document.getElementById('sucursalModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+
+  </script>
+
+</body>
+
+</html>
