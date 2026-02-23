@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sucursales y Corresponsales – VYAA Liquidadores de Seguros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/sucursales.css">
+  <link rel="stylesheet" href="css/header-footer.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><a href="index.html"><img src="logo-viollier.png" alt="VYAA Liquidadores de Seguros"></a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#" title="Español"><span class="fi fi-es"></span></a>
+              <a href="#" title="English"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="tel:+56223784300" class="phone-link"><i class="fas fa-phone-alt"></i> +56 2 2378 4300</a>
+          </div>
+          <nav id="mainNav">
+            <button class="nav-close-btn" id="navClose" aria-label="Cerrar menú">×</button>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="index.html#nosotros">Nosotros</a></li>
+              <li class="dropdown" id="dropServicios">
+                <a href="#" id="dropServiciosToggle">Servicios y Equipos <span class="drop-arrow">▾</span></a>
+                <div class="dropdown-content">
+                  <a href="#">Crédito y Garantías</a>
+                  <a href="#">Ingeniería</a>
+                  <a href="#">Transporte y Casco</a>
+                  <a href="#">Masivo / Líneas Personales</a>
+                  <a href="#">Robo</a>
+                  <a href="#">Recursos Naturales</a>
+                  <a href="#">Responsabilidad Civil y Riesgos Financieros</a>
+                  <a href="#">Comité Ejecutivo</a>
+                  <a href="#">Eventos Catastróficos</a>
+                </div>
+              </li>
+              <li><a href="sucursales.html" class="active">Sucursales</a></li>
+              <li><a href="internacional.html">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="container">
+        <h1>Sucursales y Corresponsales</h1>
+        <p>Presencia en todo Chile, desde Arica hasta Punta Arenas. Expertos locales para una atención cercana y
+          eficiente.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="#sucursales" class="btn btn-primary">Ver Sucursales</a>
+          <a href="#corresponsales" class="btn"
+            style="background:rgba(255,255,255,0.15); color:white; border:2px solid rgba(255,255,255,0.5);">Ver
+            Corresponsales</a>
+        </div>
+      </div>
+    </div>
+    <div class="page-hero-wave">
+      <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,70 L0,70 Z" fill="#f8fafc" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="container">
+      <div class="filter-inner">
+        <span class="filter-label">Filtrar:</span>
+        <button class="filter-btn active" onclick="filterCards('all', this)">Todos</button>
+        <button class="filter-btn" onclick="filterCards('sucursal', this)">
+          <i class="fas fa-building" style="margin-right:5px;"></i>Sucursales directas
+        </button>
+        <button class="filter-btn" onclick="filterCards('corresponsal', this)">
+          <i class="fas fa-handshake" style="margin-right:5px;"></i>Corresponsales
+        </button>
+        <span class="count-badge" id="countBadge">17 oficinas en Chile</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <main class="content-area">
+    <div class="container">
+
+      <!-- SUCURSALES -->
+      <div id="sucursales">
+        <div class="group-label">
+          <h2><i class="fas fa-building" style="color:var(--primary-light); margin-right:0.7rem;"></i>Sucursales
+            Directas</h2>
+          <div class="group-line"></div>
+          <span class="group-count">9 sucursales</span>
+        </div>
+
+        <div class="cards-grid">
+
+          <div class="office-card sucursal" onclick="openModal('casa_matriz')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-star"></i></div>
+              <div class="office-title">
+                <h3>Casa Matriz – Santiago</h3>
+                <span class="type-badge">Sucursal · Casa Matriz</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Providencia, Santiago</strong>
+              La Concepción Nº 322, Piso 13<br>
+              Tel: (56-2) 23784300<br>
+              claims@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('antofagasta')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Antofagasta</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Lisette Bulnes</strong>
+              Arturo Prat N° 461, Of. N° 905<br>
+              Tel: (56-55) 281963 / 2268792<br>
+              lbulnes@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('vina_del_mar')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Viña del Mar</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Siegfredo Starke T.</strong>
+              Siete Norte Nº 645, Oficina 405<br>
+              Tel: (32) 2697982<br>
+              sstarke@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('san_antonio')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>San Antonio</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Carolina Marambio</strong>
+              Blanco Encalada 840, Of. 403<br>
+              Tel: (56 35) 2233044<br>
+              cmarambio@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('talca')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Talca</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Felipe Pérez</strong>
+              Uno Norte N° 931, Of. 513, Edif. Portal del Maule<br>
+              Tel: (56 71) 2221826<br>
+              fperez@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('concepcion')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Concepción</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Mylene Mautz</strong>
+              Tucapel Nº 391, Ofic. C, Edif. Montecristo<br>
+              Tel: (56 41) 2227265 / 2222970<br>
+              mmautz@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('temuco')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Temuco</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Mylene Mautz Toro</strong>
+              Av. España N° 446, Of. 205<br>
+              Tel: (56 45) 2386431<br>
+              mmautz@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('pto_montt')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Puerto Montt</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Rene Miño A.</strong>
+              Urmeneta Nº 305, Of. 402, Edif. Los Héroes<br>
+              Tel: (56-65) 2294400<br>
+              rmino@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card sucursal" onclick="openModal('punta_arenas')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="office-title">
+                <h3>Punta Arenas</h3>
+                <span class="type-badge">Sucursal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Gloria Loaiza</strong>
+              Roca N° 817, Piso 4, Of. 40<br>
+              Tel: (56 61) 2243676<br>
+              gloaiza@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- CORRESPONSALES -->
+      <div id="corresponsales">
+        <div class="group-label">
+          <h2><i class="fas fa-handshake" style="color:#7c3aed; margin-right:0.7rem;"></i>Corresponsales</h2>
+          <div class="group-line" style="background: linear-gradient(to right, #7c3aed, transparent);"></div>
+          <span class="group-count" style="background:#7c3aed;">8 corresponsales</span>
+        </div>
+
+        <div class="cards-grid">
+
+          <div class="office-card corresponsal" onclick="openModal('arica')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Arica y Parinacota</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Angel G. Sepúlveda Castro</strong>
+              Tel: (56 58) 2228680<br>
+              Cel: (56 9) 77539964<br>
+              angelsepulveda1@yahoo.es
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('iquique')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Iquique</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Horacio R. Rubio M.</strong>
+              Baquedano 1282, Iquique<br>
+              Tel: (56 57) 427 169<br>
+              iquique@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('copiapo')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Copiapó</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Fabiola Gaéte Pulgar</strong>
+              Copiapó<br>
+              Cel: (56 9) 58596588<br>
+              fabiolagaete@gmail.com
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('la_serena')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>La Serena</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Ismael Diaz A.</strong>
+              La Serena<br>
+              Tel: (56 51) 2272652<br>
+              idiaza@gmail.com
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('los_angeles')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Los Ángeles</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Mylene Mautz</strong>
+              Tucapel Nº 391, Ofic. C, Concepción<br>
+              Tel: (56 41) 2227265<br>
+              mmautz@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('valdivia')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Valdivia</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sra. Mylene Mautz Toro</strong>
+              Av. España N° 446, Of. 205, Temuco<br>
+              Tel: (56 45) 2386431<br>
+              mmautz@vyaa.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-address-card"></i> Ver contacto <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('osorno')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Osorno</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Rene Miño A.</strong>
+              Urmeneta Nº 305, Of. 402, Puerto Montt<br>
+              Tel: (56-65) 2294400<br>
+              rmino@viollierajustadores.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <div class="office-card corresponsal" onclick="openModal('coyaique')">
+            <div class="office-card-top">
+              <div class="office-icon"><i class="fas fa-handshake"></i></div>
+              <div class="office-title">
+                <h3>Coyhaique</h3>
+                <span class="type-badge">Corresponsal</span>
+              </div>
+            </div>
+            <div class="office-info">
+              <strong>Sr. Jorge A. Holmberg Barra</strong>
+              Bilbao N° 873, Coyhaique<br>
+              Tel: (56 67) 2234405<br>
+              jorgeandres@holmberg.cl
+            </div>
+            <div class="office-card-footer">
+              <button class="view-map-btn" style="color:#7c3aed;"><i class="fas fa-map-marked-alt"></i> Ver en mapa <i
+                  class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CTA strip -->
+  <div class="chile-strip">
+    <div class="container">
+      <h2>¿No encuentra su región?</h2>
+      <p>Nuestro equipo en Casa Matriz puede orientarle y conectarle con el experto adecuado en su zona.</p>
+      <a href="tel:+56223784300" class="btn btn-primary">Llamar: +56 2 2378 4300</a>
+      &nbsp;
+      <a href="internacional.html" class="btn"
+        style="background:rgba(255,255,255,0.12); color:white; border:2px solid rgba(255,255,255,0.4); margin-top:0.5rem;">Ver
+        Red Internacional</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:3.5rem; margin-bottom:5rem;">
+        <div>
+          <div class="logo" style="width:100px; margin-bottom:1.5rem;"><img src="logo-V.png" style="width:100%;"></div>
+          <p style="color:#94a3b8; margin-bottom:1.8rem;">
+            Liquidadores de seguros con más de 60 años de trayectoria y presencia nacional.<br>
+            Soluciones técnicas y profesionales en gestión de siniestros.
+          </p>
+          <div style="display:flex; gap:1.6rem;">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter" style="font-size:1.7rem; color:#94a3b8;"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Enlaces Rápidos</h4>
+          <ul style="list-style:none;">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Equipos</a></li>
+            <li><a href="sucursales.html">Sucursales</a></li>
+            <li><a href="internacional.html">Red Internacional</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Ingreso Clientes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul style="list-style:none;">
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-phone-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> +56 2 2378 4300</li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-envelope"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> contacto@vyaa.cl</li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-map-marker-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> La Concepción 322, Piso 13, Providencia,
+              Santiago</li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1e293b; padding-top:2.5rem; text-align:center; color:#64748b;">
+        <p>© 2026 VYAA Liquidadores de Seguros. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="officeModal" class="modal" onclick="handleModalClick(event)">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <div class="modal-head">
+        <div class="modal-type-badge" id="modalTypeBadge"></div>
+        <h3 id="modalTitle"></h3>
+      </div>
+      <div class="modal-body-inner" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/sucursales.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VYAA - Liquidadores de Seguros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header-footer.css">
+  <link rel="stylesheet" href="css/index.css">
+
+
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><img src="logo-viollier.png" alt="VYAA"></div>
+
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#" title="Español" aria-label="Español"><span class="fi fi-es"></span></a>
+              <a href="#" title="English" aria-label="English"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="tel:+56223784300" class="phone-link"><i class="fas fa-phone-alt"></i> +56 2 2378 4300</a>
+          </div>
+          <nav id="mainNav">
+            <button class="nav-close-btn" id="navClose" aria-label="Cerrar menú">×</button>
+            <ul>
+              <li><a href="#">Inicio</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li class="dropdown" id="dropServicios">
+                <a href="#" id="dropServiciosToggle">Servicios y Equipos <span class="drop-arrow">▾</span></a>
+                <div class="dropdown-content">
+                  <a href="#">Crédito y Garantías</a>
+                  <a href="#">Ingeniería</a>
+                  <a href="#">Transporte y Casco</a>
+                  <a href="#">Masivo / Líneas Personales</a>
+                  <a href="#">Robo</a>
+                  <a href="#">Recursos Naturales</a>
+                  <a href="#">Responsabilidad Civil y Riesgos Financieros</a>
+                  <a href="#">Comité Ejecutivo</a>
+                  <a href="#">Eventos Catastróficos</a>
+                </div>
+              </li>
+              <li><a href="sucursales.html">Sucursales</a></li>
+              <li><a href="internacional.html">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-grid">
+
+        <div class="hero-left">
+          <div class="hero-eyebrow">
+            <span class="eyebrow-dot"></span>
+            Liquidadores de Seguros · Desde 1957
+          </div>
+          <h1 class="hero-title">
+            Soluciones técnicas y profesionales en
+            <span class="hero-highlight"> liquidación de siniestros</span>
+          </h1>
+          <p class="hero-desc">
+            Más de 60 años de experiencia, presencia nacional y alianza internacional. Objetividad y rigor en cada caso.
+          </p>
+          <div class="hero-ctas">
+            <a href="#" class="btn btn-primary">Ingreso Clientes</a>
+            <a href="#" class="btn-hero-contact">
+              <i class="fas fa-phone-alt"></i> Contactar
+            </a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item">
+              <span class="trust-num">+60</span>
+              <span class="trust-label">años</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <span class="trust-num">9</span>
+              <span class="trust-label">sucursales</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-item">
+              <span class="trust-num">+40</span>
+              <span class="trust-label">países</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="phone-wrap">
+            <div class="phone-glow"></div>
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                <div class="phone-screen-inner">
+                  <div class="app-ui-bar"></div>
+                  <div class="app-ui-title">App Clientes</div>
+                  <div class="app-ui-card">
+                    <i class="fas fa-file-alt"></i> Siniestro #4821
+                    <small>En proceso · 78%</small>
+                  </div>
+                  <div class="app-ui-card app-ui-card--green">
+                    <i class="fas fa-check-circle"></i> Siniestro #4756
+                    <small>Liquidado</small>
+                  </div>
+                  <div class="app-ui-card">
+                    <i class="fas fa-clock"></i> Siniestro #4803
+                    <small>Pendiente revisión</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="app-badge-label">Descarga la app</div>
+          <div class="app-badges-hero">
+            <a href="#" class="app-badge-btn">
+              <i class="fab fa-apple"></i>
+              <span><small>Disponible en</small>App Store</span>
+            </a>
+            <a href="#" class="app-badge-btn">
+              <i class="fab fa-google-play"></i>
+              <span><small>Disponible en</small>Google Play</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiénes Somos -->
+  <section class="section quienes-section">
+    <div class="quienes-bg"></div>
+    <div class="container quienes-container">
+      <h2>¿Quiénes Somos?</h2>
+      <div class="quienes">
+        <div class="text-content">
+          <p>
+            Somos liquidadores de seguros con <strong>más de 60 años de trayectoria</strong> y <strong>presencia en todo
+              Chile</strong>. Brindamos servicios técnicos y profesionales en la gestión y liquidación de siniestros,
+            tanto para el mercado de personas como empresas. Contamos además con una <strong>alianza internacional con
+              Adjusteck LLC de Londres</strong>, líderes en el mercado inglés de ajuste de pérdidas.
+          </p>
+          <div class="mision-vision">
+            <div class="card-mv">
+              <h3>Nuestra Misión</h3>
+              <p>Ofrecer un servicio oportuno y profesional, basado en principios de objetividad y modernidad.</p>
+            </div>
+            <div class="card-mv">
+              <h3>Nuestra Visión</h3>
+              <p>Liderar el mercado de liquidación de seguros, destacándonos por nuestro alto nivel técnico y
+                confidencialidad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="section" style="background:#fff;">
+    <div class="container">
+      <h2>Nuestros Servicios</h2>
+      <div class="servicios-grid">
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-credit-card"></i></div>
+          <h3>Crédito y Garantías</h3>
+          <p>Gestión de pólizas de crédito interno, caución, cumplimiento y fidelidad. Análisis de incumplimientos y
+            cálculo de indemnizaciones.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-hard-hat"></i></div>
+          <h3>Ingeniería</h3>
+          <p>Especialistas en Todo Riesgo Construcción (TRC), montaje, rotura de maquinaria, equipo contratista y
+            pérdida de beneficios. Peritajes de alta complejidad.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-truck-loading"></i></div>
+          <h3>Transporte y Casco</h3>
+          <p>Liquidación de carga nacional/internacional, casco terrestre, fluvial y marítimo. Averías particulares,
+            gruesas y pérdida total.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-users"></i></div>
+          <h3>Masivo / Líneas Personales</h3>
+          <p>Gestión masiva de siniestros en seguros de personas: hogar, automóvil, accidentes personales y multirriesgo
+            para el mercado retail y bancaseguros.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-mask"></i></div>
+          <h3>Robo</h3>
+          <p>Liquidación especializada de robo, hurto y asalto en hogar, comercio y empresas. Investigación, valoración
+            de bienes y trámites con aseguradoras.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-leaf"></i></div>
+          <h3>Recursos Naturales</h3>
+          <p>Gestión de siniestros en los sectores forestal, agrícola y minero. Peritajes especializados en daños a
+            recursos naturales y evaluación de impacto ambiental.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Responsabilidad Civil y Riesgos Financieros</h3>
+          <p>RC extracontractual, contractual, profesional, patronal y general. Análisis y liquidación de pérdida de
+            beneficios, interrupción de negocio y pólizas financieras.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-briefcase"></i></div>
+          <h3>Comité Ejecutivo</h3>
+          <p>Gestión de siniestros de alta complejidad y montos relevantes. Equipo directivo dedicado a casos que
+            requieren coordinación técnica y estratégica de alto nivel.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Eventos Catastróficos</h3>
+          <p>Respuesta especializada ante sismos, inundaciones, incendios forestales y otros eventos de gran escala.
+            Coordinación nacional con equipos de emergencia.</p>
+          <button class="btn btn-primary">Ver equipo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aseguradoras -->
+  <section class="section" style="background:#f8fafc;">
+    <div class="container">
+      <h2>Aseguradoras con las que trabajamos</h2>
+      <p style="text-align:center; max-width:820px; margin:0 auto 4rem; font-size:1.18rem; color:var(--gray);">
+        Colaboramos con más de 23 compañías de seguros para ofrecer una liquidación rápida, transparente y profesional.
+      </p>
+      <div class="carousel-aseg-wrap">
+        <div class="aseg-track">
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2023/02/fid-f.jpg" alt="FID">
+          </div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/1-aspor.jpg"
+              alt="Aspor"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/2-bci.jpg"
+              alt="BCI Seguros"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/3-cardif.jpg"
+              alt="Cardif"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/4-cesce.jpg"
+              alt="CESCE"></div>
+          <div class="aseg-logo"><img
+              src="https://www.e-viollier.cl/wp-content/uploads/2019/08/5-chilena-consolidada.jpg"
+              alt="Chilena Consolidada"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/6-Chubb.jpg"
+              alt="Chubb"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/7-coface.jpg"
+              alt="Coface"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/8-consorcio.jpg"
+              alt="Consorcio"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/9-contempora.jpg"
+              alt="Contemporá"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/10-continental.jpg"
+              alt="Continental"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/11-hdi.jpg" alt="HDI">
+          </div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/12-liberty-seguros.jpg"
+              alt="Liberty Seguros"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/13-Mapfre.jpg"
+              alt="Mapfre"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/14-orion.jpg"
+              alt="Orion"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/15-orsan.png"
+              alt="Orsan"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/16-reale-seguros.jpg"
+              alt="Reale Seguros"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/17-renta-nacional.jpg"
+              alt="Renta Nacional"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/18-south.jpg"
+              alt="South"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/19-sura.jpg" alt="SURA">
+          </div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/20-zenit.jpg"
+              alt="Zenit"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/21-Zurich.jpg"
+              alt="Zurich"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/22-Santander.jpg"
+              alt="Santander"></div>
+          <!-- Duplicado loop -->
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2023/02/fid-f.jpg" alt="FID">
+          </div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/1-aspor.jpg"
+              alt="Aspor"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/2-bci.jpg"
+              alt="BCI Seguros"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/3-cardif.jpg"
+              alt="Cardif"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/4-cesce.jpg"
+              alt="CESCE"></div>
+          <div class="aseg-logo"><img
+              src="https://www.e-viollier.cl/wp-content/uploads/2019/08/5-chilena-consolidada.jpg"
+              alt="Chilena Consolidada"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/6-Chubb.jpg"
+              alt="Chubb"></div>
+          <div class="aseg-logo"><img src="https://www.e-viollier.cl/wp-content/uploads/2019/08/7-coface.jpg"
+              alt="Coface"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sucursales -->
+  <section class="sucursales">
+    <div class="container">
+      <h2>Presencia Nacional</h2>
+      <p style="text-align:center; max-width:740px; margin:0 auto 4.5rem; font-size:1.18rem; opacity:0.85;">
+        9 sucursales directas y 8 corresponsales a lo largo de todo Chile
+      </p>
+      <div class="sucursales-grid"
+        style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); max-width:1100px; margin:0 auto;">
+        <div class="sucursal-item sucursal-item--highlight" onclick="openModal('santiago')">
+          <div
+            style="position:absolute; top:14px; right:16px; background:var(--accent); color:var(--primary); font-size:0.68rem; font-weight:800; padding:3px 10px; border-radius:50px; text-transform:uppercase; letter-spacing:0.05em;">
+            Casa Matriz</div>
+          <i class="fas fa-star"></i>
+          <h4>Santiago</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Providencia</p>
+        </div>
+        <div class="sucursal-item" onclick="openModal('antofagasta')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Antofagasta</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de Antofagasta</p>
+        </div>
+        <div class="sucursal-item" onclick="openModal('concepcion')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Concepción</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región del Biobío</p>
+        </div>
+        <div class="sucursal-item" onclick="openModal('temuco')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Temuco</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de La Araucanía</p>
+        </div>
+        <div class="sucursal-item" onclick="openModal('puertomontt')">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Puerto Montt</h4>
+          <p style="font-size:0.85rem; opacity:0.75; margin-top:0.4rem; font-weight:400;">Región de los Lagos</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:2rem; opacity:0.6; font-size:0.95rem;">
+        + 4 sucursales y 8 corresponsales más en todo el país
+      </div>
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="sucursales.html" class="btn btn-primary" style="padding:1rem 3rem; font-size:1.1rem;">
+          <i class="fas fa-map-marked-alt" style="margin-right:0.5rem;"></i>Ver todas las oficinas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal sucursales -->
+  <div id="sucursalModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">×</span>
+      <h3 id="modal-title"></h3>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Red Internacional -->
+  <section class="section red-internacional-preview">
+    <div class="container">
+      <h2>Red Internacional</h2>
+      <p style="text-align:center; max-width:820px; margin:-3rem auto 4rem; font-size:1.18rem; color:var(--gray);">
+        Presencia en las principales capitales y países del mundo a través de nuestra alianza con <strong>Adjusteck
+          LLC</strong>, líderes del mercado de ajuste de pérdidas en Londres.
+      </p>
+      <div class="internacional-preview-grid">
+        <div class="internacional-stats">
+          <div class="int-stat"><span class="int-number">+40</span><span class="int-label">Países con presencia</span>
+          </div>
+          <div class="int-stat"><span class="int-number">5</span><span class="int-label">Continentes</span></div>
+          <div class="int-stat"><span class="int-number">+40</span><span class="int-label">Años de Adjusteck LLC</span>
+          </div>
+        </div>
+        <div class="mundial-map-wrap">
+          <div id="previewMap" style="height:420px; border-radius:20px; overflow:hidden;"></div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="internacional.html" class="btn btn-primary" style="padding:1rem 3rem; font-size:1.1rem;">
+          <i class="fas fa-globe" style="margin-right:0.8rem;"></i>Ver Red Internacional Completa
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div
+        style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:3.5rem; margin-bottom:5rem;">
+        <div>
+          <div class="logo" style="width:100px; margin-bottom:1.5rem;"><img src="logo-V.png" style="width:100%;"></div>
+          <p style="color:#94a3b8; margin-bottom:1.8rem;">
+            Liquidadores de seguros con más de 60 años de trayectoria y presencia nacional.<br>
+            Soluciones técnicas y profesionales en gestión de siniestros.
+          </p>
+          <div style="display:flex; gap:1.6rem;">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"
+                style="font-size:1.7rem; color:#94a3b8;"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter" style="font-size:1.7rem; color:#94a3b8;"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Enlaces Rápidos</h4>
+          <ul style="list-style:none;">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Equipos</a></li>
+            <li><a href="sucursales.html">Sucursales</a></li>
+            <li><a href="internacional.html">Red Internacional</a></li>
+            <li><a href="#">Contacto</a></li>
+            <li><a href="#">Ingreso Clientes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul style="list-style:none;">
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-phone-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> +56 2 2378 4300</li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-envelope"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> contacto@vyaa.cl</li>
+            <li style="margin-bottom:0.8rem;"><i class="fas fa-map-marker-alt"
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> La Concepción 322, Piso 13, Providencia,
+              Santiago</li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1e293b; padding-top:2.5rem; text-align:center; color:#64748b;">
+        <p>© 2026 VYAA Liquidadores de Seguros. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script src="js/index.js"></script>
+
+</body>
+
+</html>
