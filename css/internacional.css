@@ -1,0 +1,423 @@
+/* Header, navegación y estilos base de botones movidos a css/main.css */
+
+    .btn-outline-dark {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: white;
+    }
+
+    .btn-outline-dark:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* ── Hero Internacional ── */
+    .hero-int {
+      padding: 180px 0 100px;
+      background: linear-gradient(135deg, #001f3f 0%, #003366 50%, #001f3f 100%);
+      position: relative;
+      overflow: hidden;
+      color: white;
+    }
+
+    .hero-int::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(0, 170, 255, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-int-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .hero-int h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-int h1 span {
+      color: var(--accent);
+    }
+
+    .hero-int p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+    }
+
+    .adjusteck-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.2rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .adjusteck-badge i {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .adjusteck-badge strong {
+      display: block;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .adjusteck-badge span {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .hero-int-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .hero-stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+    }
+
+    .hero-stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Mapa grande ── */
+    .mapa-section {
+      padding: 80px 0;
+      background: #050e1a;
+    }
+
+    .mapa-section h2 {
+      text-align: center;
+      color: white;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .mapa-section h2::after {
+      content: '';
+      width: 80px;
+      height: 5px;
+      background: var(--accent);
+      display: block;
+      margin: 1rem auto 0;
+      border-radius: 3px;
+    }
+
+    .mapa-section p.sub {
+      text-align: center;
+      color: #64748b;
+      font-size: 1.1rem;
+      margin-bottom: 4rem;
+    }
+
+    .world-map-container {
+      width: 100%;
+      background: #0a1628;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    }
+
+    .custom-popup .leaflet-popup-content-wrapper {
+      background: rgba(0, 31, 63, 0.95);
+      border: 1px solid rgba(0, 170, 255, 0.3);
+      border-radius: 10px;
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .custom-popup .leaflet-popup-tip {
+      background: rgba(0, 31, 63, 0.95);
+    }
+
+    /* ── Regiones ── */
+    .regiones-section {
+      padding: 80px 0;
+      background: var(--dark);
+    }
+
+    .regiones-section h2 {
+      text-align: center;
+      color: white;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .regiones-section h2::after {
+      content: '';
+      width: 80px;
+      height: 5px;
+      background: var(--accent);
+      display: block;
+      margin: 1rem auto 3rem;
+      border-radius: 3px;
+    }
+
+    .regiones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .region-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.3s;
+    }
+
+    .region-card:hover {
+      background: rgba(0, 170, 255, 0.06);
+      border-color: rgba(0, 170, 255, 0.2);
+      transform: translateY(-6px);
+    }
+
+    .region-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .region-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(0, 119, 204, 0.15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .region-card h3 {
+      color: white;
+      font-size: 1.4rem;
+    }
+
+    .region-card .paises {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .pais-tag {
+      background: rgba(0, 119, 204, 0.12);
+      border: 1px solid rgba(0, 119, 204, 0.2);
+      color: #94a3b8;
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .pais-tag:hover {
+      background: rgba(0, 170, 255, 0.15);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #001f3f, #003366);
+      text-align: center;
+      color: white;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    
+    /* ════════════════════════════════════════════════════
+       RESPONSIVE — IDÉNTICO AL INDEX DEFINITIVO
+    ════════════════════════════════════════════════════ */
+
+    /* Tablet */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero-int-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero-int-content>div:last-child {
+        display: none;
+      }
+
+      .regiones-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      /* Hero */
+      .hero-int {
+        padding: 110px 0 50px;
+      }
+
+      .hero-int-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-int-content>div:last-child {
+        display: none;
+      }
+
+      .hero-int h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+      }
+
+      .hero-int p {
+        font-size: 1rem;
+      }
+
+      .adjusteck-badge {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+        gap: 0.5rem;
+      }
+
+      .hero-int-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.7rem;
+        margin-top: 1.5rem;
+      }
+
+      .hero-stat {
+        padding: 0.8rem 0.4rem;
+      }
+
+      .hero-stat-num {
+        font-size: 1.6rem;
+      }
+
+      .hero-stat-label {
+        font-size: 0.7rem;
+      }
+
+      /* Mapa */
+      .mapa-section {
+        padding: 50px 0;
+      }
+
+      .mapa-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .mapa-section p.sub {
+        margin-bottom: 2rem;
+      }
+
+      #leafletMap {
+        height: 280px !important;
+      }
+
+      /* Regiones */
+      .regiones-section {
+        padding: 50px 0;
+      }
+
+      .regiones-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .regiones-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .region-card {
+        padding: 1.4rem;
+      }
+
+      .region-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
+      }
+
+      .region-card h3 {
+        font-size: 1.05rem;
+      }
+
+      .pais-tag {
+        font-size: 0.78rem;
+        padding: 0.2rem 0.6rem;
+      }
+
+      /* CTA */
+      .cta-section {
+        padding: 50px 0;
+      }
+
+      .cta-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .cta-section p {
+        font-size: 1rem;
+      }
+
+      .cta-btns {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* .btn responsive moved to css/main.css */
+
+      footer {
+        padding: 2rem 0 1.5rem;
+        font-size: 0.9rem;
+      }
+    }

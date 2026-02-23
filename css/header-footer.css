@@ -1,0 +1,39 @@
+/* Header y navegación movidos a css/main.css */
+/* Mantener en este archivo sólo estilos específicos de header/footer que no estén en main.css */
+
+footer {
+  background: var(--dark);
+  color: #fff;
+  padding: 60px 0;
+  text-align: left;
+  margin-top: 0px;
+}
+
+/* ── Footer ── */
+    footer {
+      
+     
+       color: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid #0f1e2e;
+       font-size: 0.95rem;
+    }
+
+    footer a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--primary-light);
+    }
+
+    
+    footer ul li {
+    margin-bottom: 0.6rem;
+}
+    footer h4 {
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
