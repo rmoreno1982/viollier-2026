@@ -3,20 +3,14 @@
 
 footer {
   background: var(--dark);
-  color: #fff;
+  
   padding: 60px 0;
-  text-align: left; 
+  text-align: left;
   margin-top: 0px;
-}
-
-/* ── Footer ── */
-    footer {
-      
-     
-       color: rgba(255, 255, 255, 0.7);
-      border-top: 1px solid #0f1e2e;
+   color: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid #1e293b;
        font-size: 0.95rem;
-    }
+}
 
     footer a {
       color: #94a3b8;
