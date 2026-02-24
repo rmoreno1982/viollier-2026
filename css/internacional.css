@@ -20,6 +20,138 @@
       color: white;
     }
 
+/* ── Panel lateral moderno para sucursales ── */
+#branch-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: min(420px, 92vw);
+  transform: translateX(110%);
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1);
+  z-index: 1202;
+  display: flex;
+  align-items: stretch;
+}
+
+#branch-panel[aria-hidden="false"] {
+  transform: translateX(0);
+}
+
+.branch-panel-inner {
+  background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+  box-shadow: -40px 40px 120px rgba(3,7,18,0.45);
+  width: 100%;
+  padding: 2rem;
+  overflow:auto;
+  border-left: 1px solid rgba(2,6,23,0.06);
+}
+
+#branch-panel-close {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #64748b;
+  transition: background 0.2s, color 0.2s;
+}
+#branch-panel-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+#branch-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 3px solid #0077cc;
+}
+
+#branch-panel-title {
+  font-size: 1.15rem;
+  color: #0f172a;
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: 1.35;
+  flex: 1;
+}
+
+#branch-panel-body {
+  color: #334155;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+#branch-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+  z-index: 1201;
+}
+
+#branch-panel-backdrop[aria-hidden="false"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* small tweaks for inside content */
+.branch-panel-inner a { color: var(--primary-light); text-decoration: underline; }
+.branch-panel-inner strong { color: #0b3b66; }
+
+.bp-empresa {
+  font-weight: 700;
+  color: #2567a3;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2ebf6;
+}
+
+.bp-sep {
+  border: none;
+  border-top: 1px solid #e2ebf6;
+  margin: 1rem 0;
+}
+
+.bp-mapbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding: 0.45rem 1rem;
+  background: #001f3f;
+  color: #fff !important;
+  text-decoration: none !important;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.bp-mapbtn:hover { background: #003366; }
+
+
+.pais-tag:hover {
+  background: rgba(0, 119, 204, 0.18) !important;
+  color: white !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-1px);
+}
+
     .hero-int::before {
       content: '';
       position: absolute;
