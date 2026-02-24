@@ -151,6 +151,7 @@
       <h2>Presencia por Región</h2>
       <div class="regiones-grid">
 
+        <!-- América del Norte -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe-americas"></i></div>
@@ -160,28 +161,47 @@
             <span class="pais-tag">Estados Unidos</span>
             <span class="pais-tag">Canadá</span>
             <span class="pais-tag">México</span>
+            <span class="pais-tag">Bahamas</span>
           </div>
         </div>
 
+        <!-- América Central -->
+        <div class="region-card">
+          <div class="region-header">
+            <div class="region-icon"><i class="fas fa-globe-americas"></i></div>
+            <h3>América Central y Caribe</h3>
+          </div>
+          <div class="paises">
+            <span class="pais-tag">Costa Rica</span>
+            <span class="pais-tag">El Salvador</span>
+            <span class="pais-tag">Guatemala</span>
+            <span class="pais-tag">Honduras</span>
+            <span class="pais-tag">Panamá</span>
+            <span class="pais-tag">Puerto Rico</span>
+            <span class="pais-tag">República Dominicana</span>
+          </div>
+        </div>
+
+        <!-- América del Sur -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe-americas"></i></div>
             <h3>América del Sur</h3>
           </div>
           <div class="paises">
-            <span class="pais-tag">Chile ★</span>
-            <span class="pais-tag">Brasil</span>
             <span class="pais-tag">Argentina</span>
-            <span class="pais-tag">Colombia</span>
-            <span class="pais-tag">Perú</span>
-            <span class="pais-tag">Venezuela</span>
-            <span class="pais-tag">Ecuador</span>
-            <span class="pais-tag">Uruguay</span>
             <span class="pais-tag">Bolivia</span>
+            <span class="pais-tag">Brasil</span>
+            <span class="pais-tag">Colombia</span>
+            <span class="pais-tag">Ecuador</span>
             <span class="pais-tag">Paraguay</span>
+            <span class="pais-tag">Perú</span>
+            <span class="pais-tag">Uruguay</span>
+            <span class="pais-tag">Venezuela</span>
           </div>
         </div>
 
+        <!-- Europa -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe-europe"></i></div>
@@ -189,35 +209,30 @@
           </div>
           <div class="paises">
             <span class="pais-tag">Reino Unido ★</span>
-            <span class="pais-tag">Alemania</span>
-            <span class="pais-tag">Francia</span>
             <span class="pais-tag">España</span>
             <span class="pais-tag">Italia</span>
-            <span class="pais-tag">Países Bajos</span>
-            <span class="pais-tag">Polonia</span>
-            <span class="pais-tag">Suecia</span>
             <span class="pais-tag">Noruega</span>
-            <span class="pais-tag">Austria</span>
-            <span class="pais-tag">Rumanía</span>
-            <span class="pais-tag">Turquía</span>
+            <span class="pais-tag">Polonia</span>
+            <span class="pais-tag">Suiza</span>
+            <span class="pais-tag">Eslovaquia</span>
           </div>
         </div>
 
+        <!-- África y Medio Oriente -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe-africa"></i></div>
             <h3>África y Medio Oriente</h3>
           </div>
           <div class="paises">
-            <span class="pais-tag">Marruecos</span>
-            <span class="pais-tag">Nigeria</span>
-            <span class="pais-tag">Kenia</span>
             <span class="pais-tag">Sudáfrica</span>
-            <span class="pais-tag">Arabia Saudita</span>
             <span class="pais-tag">Emiratos Árabes</span>
+            <span class="pais-tag">Irak</span>
+            <span class="pais-tag">Jordania</span>
           </div>
         </div>
 
+        <!-- Asia -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe-asia"></i></div>
@@ -229,12 +244,10 @@
             <span class="pais-tag">India</span>
             <span class="pais-tag">Singapur</span>
             <span class="pais-tag">Corea del Sur</span>
-            <span class="pais-tag">Pakistán</span>
-            <span class="pais-tag">Bangladesh</span>
-            <span class="pais-tag">Sri Lanka</span>
           </div>
         </div>
 
+        <!-- Oceanía -->
         <div class="region-card">
           <div class="region-header">
             <div class="region-icon"><i class="fas fa-globe"></i></div>
@@ -242,7 +255,6 @@
           </div>
           <div class="paises">
             <span class="pais-tag">Australia</span>
-            <span class="pais-tag">Nueva Zelanda</span>
           </div>
         </div>
 
@@ -262,6 +274,18 @@
       </div>
     </div>
   </section>
+  <!-- Panel lateral moderno para mostrar contacto de sucursales -->
+  <aside id="branch-panel" aria-hidden="true">
+    <div class="branch-panel-inner">
+      <div id="branch-panel-header">
+        <h3 id="branch-panel-title"></h3>
+        <button id="branch-panel-close" aria-label="Cerrar panel">✕</button>
+      </div>
+      <div id="branch-panel-body"></div>
+    </div>
+  </aside>
+
+  <div id="branch-panel-backdrop" aria-hidden="true"></div>
 
   <footer>
     <div class="container">
@@ -302,7 +326,8 @@
             <li style="margin-bottom:0.8rem;"><i class="fas fa-phone-alt"
                 style="margin-right:0.9rem; color:var(--primary-light);"></i> +56 2 2378 4300</li>
             <li style="margin-bottom:0.8rem;"><i class="fas fa-envelope"
-                style="margin-right:0.9rem; color:var(--primary-light);"></i> contacto@vyaa.cl</li>
+                style="margin-right:0.9rem; color:var(--primary-light);"></i> <a href="/cdn-cgi/l/email-protection"
+                class="__cf_email__" data-cfemail="0e6d61607a6f6d7a614e78776f6f206d62">[email&#160;protected]</a></li>
             <li style="margin-bottom:0.8rem;"><i class="fas fa-map-marker-alt"
                 style="margin-right:0.9rem; color:var(--primary-light);"></i> La Concepción 322, Piso 13, Providencia,
               Santiago</li>
@@ -315,8 +340,10 @@
     </div>
   </footer>
 
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
   <script src="js/internacional.js"></script>
+
 </body>
 
 </html>
