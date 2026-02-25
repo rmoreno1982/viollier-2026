@@ -267,10 +267,11 @@ nav a.active {
 
   .hamburger {
     display: flex;
+    margin-left: auto;
   }
 
-  .nav-close-btn {
-    display: block;
+  .hamburger.is-open {
+    display: none;
   }
 
   /* Nav — panel que cae desde arriba */

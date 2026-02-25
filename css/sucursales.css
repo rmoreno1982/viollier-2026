@@ -459,6 +459,15 @@
 
     @media (max-width: 768px) {
 
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .hamburger.is-open {
+        display: none;
+      }
+
       /* Page hero */
       .page-hero {
         padding: 110px 0 70px;

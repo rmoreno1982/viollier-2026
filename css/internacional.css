@@ -431,6 +431,15 @@
 
     @media (max-width: 768px) {
 
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .hamburger.is-open {
+        display: none;
+      }
+
       /* Hero */
       .hero-int {
         padding: 110px 0 50px;
