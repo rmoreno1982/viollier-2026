@@ -362,7 +362,8 @@ footer {
   .header-integrated { padding: 0.8rem 0; }
   .logo img { height: 54px; }
   .top-line { display: none; }
-  .hamburger { display: flex; }
+  .hamburger { display: flex; margin-left: auto; }
+  .hamburger.is-open { display: none; }
   .nav-close-btn { display: block; }
 
   nav {
