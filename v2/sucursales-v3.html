@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sucursales — VYAA Liquidadores de Seguros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="css/v3-main.css">
+  <style>
+    /* ══ HERO COMPACTO ══════════════════════════════════ */
+    .page-hero {
+      position: relative;
+      padding: 160px 0 120px;
+      background:
+        linear-gradient(160deg, rgba(11, 31, 69, 0.82) 0%, rgba(22, 45, 94, 0.70) 55%, rgba(26, 86, 219, 0.25) 100%),
+        url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&q=80&auto=format') center/cover no-repeat;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: var(--white);
+      clip-path: polygon(0 55%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .page-hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .page-hero-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 1.4rem;
+    }
+
+    .page-hero-breadcrumb a {
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.2s;
+    }
+
+    .page-hero-breadcrumb a:hover {
+      color: #fff;
+    }
+
+    .page-hero-breadcrumb span {
+      opacity: 0.4;
+    }
+
+    .page-hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-hero-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: #93c5fd;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      color: #fff !important;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-hero-desc {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 1.05rem;
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ══ FILTROS ════════════════════════════════════════ */
+    .filters-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1.4rem 0;
+      position: sticky;
+      top: 80px;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(11, 31, 69, 0.06);
+    }
+
+    .filters-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 0.55rem 1.4rem;
+      border-radius: 100px;
+      border: 1.5px solid var(--gray-200);
+      background: #fff;
+      color: var(--gray-600);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .filter-tab.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    .filters-count {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+    }
+
+    .filters-count strong {
+      color: var(--navy);
+    }
+
+    /* ══ SECCIÓN SUCURSALES ═════════════════════════════ */
+    .oficinas-section {
+      padding: 5rem 0;
+      background: var(--white);
+    }
+
+    .section-group {
+      margin-bottom: 4rem;
+    }
+
+    .section-group-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--gray-100);
+    }
+
+    .section-group-header h2 {
+      font-size: 1.8rem;
+      color: var(--navy);
+      flex: 1;
+    }
+
+    .section-group-badge {
+      background: var(--navy);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+    }
+
+    /* EXPAND CARD — el hover revela info adicional */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .office-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+      cursor: default;
+    }
+
+    .office-card:hover {
+      box-shadow: 0 16px 40px rgba(11, 31, 69, 0.13);
+      transform: translateY(-4px);
+      border-color: var(--blue);
+    }
+
+    /* barra de color superior */
+    .office-card::before {
+      content: '';
+      display: block;
+      height: 4px;
+      background: var(--gray-200);
+      transition: background 0.3s;
+    }
+
+    .office-card.sucursal::before {
+      background: var(--navy);
+    }
+
+    .office-card.corresponsal::before {
+      background: var(--blue);
+    }
+
+    .office-card:hover::before {
+      background: var(--blue-light);
+    }
+
+    .office-card-body {
+      padding: 1.6rem;
+    }
+
+    .office-card-type {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 0.8rem;
+    }
+
+    .office-card.sucursal .office-card-type {
+      background: rgba(11, 31, 69, 0.08);
+      color: var(--navy);
+    }
+
+    .office-card.corresponsal .office-card-type {
+      background: rgba(26, 86, 219, 0.1);
+      color: var(--blue);
+    }
+
+    .office-card.main-office .office-card-type {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .office-card-city {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+      line-height: 1.2;
+    }
+
+    .office-card-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      display: block !important;
+    }
+
+    .office-card-info {
+      font-size: 0.82rem;
+      color: var(--gray-600);
+      line-height: 1.75;
+    }
+
+    .office-card-info .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .office-card-info i {
+      color: var(--blue);
+      font-size: 0.75rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* CTA al fondo de la card — aparece con hover */
+    .office-card-cta {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.9rem 1.6rem;
+      background: var(--off-white);
+      border-top: 1px solid var(--gray-200);
+      opacity: 1;
+      transform: none;
+      transition: background 0.2s;
+    }
+
+    .office-card:hover .office-card-cta {
+      background: var(--gray-100);
+    }
+
+    .office-card-cta a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .office-card-cta a:hover {
+      color: var(--blue);
+      gap: 0.6rem;
+    }
+
+    /* ══ CTA FINAL ══════════════════════════════════════ */
+    .cta-final {
+      background: var(--navy);
+      padding: 7rem 0;
+      text-align: center;
+      position: relative;
+      clip-path: polygon(0 6%, 100% 0%, 100% 100%, 0% 100%);
+      margin-top: -2rem;
+    }
+
+    .cta-final h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .cta-final p {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 2.4rem;
+    }
+
+    .cta-final .btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Corresponsal section */
+    /* Todos los grupos visibles por defecto */
+    .section-group {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-bar {
+        top: 70px;
+      }
+
+      .page-hero {
+        padding: 130px 0 90px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><a href="index-v3.html"><img src="logo-viollier.png" alt="VYAA"></a></div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#"><span class="fi fi-cl"></span></a>
+              <a href="#"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="tel:+56223784300" class="phone-link"><i class="fas fa-phone-alt"></i> +56 2 2378 4300</a>
+            <a href="#" class="btn-header">Ingreso Clientes</a>
+          </div>
+          <nav id="mainNav">
+            <button class="nav-close-btn" id="navClose">×</button>
+            <ul>
+              <li><a href="index-v3.html">Inicio</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li class="dropdown" id="dropServicios">
+                <a href="#" id="dropServiciosToggle">Servicios y Equipos <span class="drop-arrow">▾</span></a>
+                <div class="dropdown-content">
+                  <a href="#">Crédito y Garantías</a><a href="#">Ingeniería</a>
+                  <a href="#">Transporte y Casco</a><a href="#">Masivo / Líneas Personales</a>
+                  <a href="#">Robo</a><a href="#">Recursos Naturales</a>
+                  <a href="#">Responsabilidad Civil y Riesgos Financieros</a>
+                  <a href="#">Comité Ejecutivo</a><a href="#">Eventos Catastróficos</a>
+                </div>
+              </li>
+              <li><a href="sucursales-v3.html" class="active">Sucursales</a></li>
+              <li><a href="internacional-v3.html">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="page-hero-breadcrumb">
+        <a href="index-v3.html">Inicio</a><span>/</span><span>Sucursales</span>
+      </div>
+      <div class="page-hero-eyebrow">Presencia en Chile</div>
+      <h1>Sucursales y<br>Corresponsales</h1>
+      <p class="page-hero-desc">Presencia en todo Chile, desde Arica hasta Punta Arenas. Expertos locales para una
+        atención cercana y eficiente.</p>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <div class="filters-bar">
+    <div class="container">
+      <div class="filters-inner">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all"><i class="fas fa-th"></i> Todos</button>
+          <button class="filter-tab" data-filter="sucursal"><i class="fas fa-building"></i> Sucursales directas</button>
+          <button class="filter-tab" data-filter="corresponsal"><i class="fas fa-handshake"></i> Corresponsales</button>
+        </div>
+        <div class="filters-count"><strong id="count">17</strong> oficinas en Chile</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <section class="oficinas-section">
+    <div class="container">
+
+      <!-- Sucursales Directas -->
+      <div class="section-group" data-type="sucursal">
+        <div class="section-group-header">
+          <h2>Sucursales Directas</h2>
+          <span class="section-group-badge">9 sucursales</span>
+        </div>
+        <div class="cards-grid">
+
+          <div class="office-card sucursal main-office">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal · Casa Matriz</span>
+              <div class="office-card-city">Santiago</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> La Concepción 322, Piso 13, Providencia
+                </div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56-2) 2378 4300</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> clarem@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta">
+              <a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Antofagasta</div>
+              <div class="office-card-name">Sra. Lisette Bulnes</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Arturo Prat N° 461, Of. N° 905</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56-55) 261963 / 2268792</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> lbulnes@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Viña del Mar</div>
+              <div class="office-card-name">Sr. Siegfrede Starke T.</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Sierra Norte N° 645, Oficina 405</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (32) 2697882</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> sstarke@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">San Antonio</div>
+              <div class="office-card-name">Carolina Marambia</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Blanco Encalada 840, Of. 403</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 35) 2230044</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> cmarambia@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Talca</div>
+              <div class="office-card-name">Sr. Felipe Pérez</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Uno Norte N° 391, Of. 513, Edif. Portal del
+                  Maule</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 71) 2221826</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> fperez@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Concepción</div>
+              <div class="office-card-name">Sra. Mylene Mautz</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Tucapel N° 391, Of. C, Edif. Montecristo
+                </div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 41) 2227265 / 2222976</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> mmautz@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Temuco</div>
+              <div class="office-card-name">Sra. Mylene Mautz Toro</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Av. España N° 446, Of. 205</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 45) 2386631</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> mmautz@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Puerto Montt</div>
+              <div class="office-card-name">Sr. Rene Miño A.</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Urmeneta N° 305, Of. 402, Edif. Los Héroes
+                </div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 51) 2272652</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> rmino@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card sucursal">
+            <div class="office-card-body">
+              <span class="office-card-type">Sucursal</span>
+              <div class="office-card-city">Punta Arenas</div>
+              <div class="office-card-name">Sra. Gloria Loaiza</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Roca N° 817, Piso 4, Of. 40</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 61) 2243676</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> gloaiza@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver en mapa <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Corresponsales -->
+      <div class="section-group" data-type="corresponsal">
+        <div class="section-group-header">
+          <h2>Corresponsales</h2>
+          <span class="section-group-badge">8 corresponsales</span>
+        </div>
+        <div class="cards-grid">
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Arica y Parinacota</div>
+              <div class="office-card-name">Sr. Angel G. Sepúlveda Castro</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 58) 2226580 · Cel 06 70 7753964</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> angelsepulveda@vhns.m</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Iquique</div>
+              <div class="office-card-name">Sr. Horacio R. Rubio M.</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Baquedano 1392, Iquique</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 57) 427 105</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> iquique@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Copiapó</div>
+              <div class="office-card-name">Fabiola Gaite Pulgar</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 52) 585965 88</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> fabiolagaete@gmail.com</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">La Serena</div>
+              <div class="office-card-name">Sr. Ismael Díaz A.</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-phone-alt"></i> Tel (56 51) 2272652</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> idiaz@gmail.com</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Los Ángeles</div>
+              <div class="office-card-name">Sra. Mylene Mautz</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Of. N° 391, C. Concepción</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 41) 2227265</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> mmautz@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Valdivia</div>
+              <div class="office-card-name">Sra. Mylene Mautz Toro</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Av. España N° 446, Of. 285, Temuco</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 45) 2386631</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> mmautz@vyaa.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Osorno</div>
+              <div class="office-card-name">Sr. Rene Miño A.</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Urmeneta N° 305, Of. 402, Puerto Montt</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 51) 2294400</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> rmino@viollierajustadores.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+          <div class="office-card corresponsal">
+            <div class="office-card-body">
+              <span class="office-card-type">Corresponsal</span>
+              <div class="office-card-city">Coyhaique</div>
+              <div class="office-card-name">Sr. Jorge A. Holmberg Barra</div>
+              <div class="office-card-info">
+                <div class="info-row"><i class="fas fa-map-marker-alt"></i> Bilbao N° 873, Coyhaique</div>
+                <div class="info-row"><i class="fas fa-phone-alt"></i> (56 67) 2234405</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> jorgandres@holmberg.cl</div>
+              </div>
+            </div>
+            <div class="office-card-cta"><a href="#">Ver contacto <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>¿No encuentra su región?</h2>
+      <p>Nuestro equipo en Casa Matriz puede orientarle y conectarle con el experto adecuado en su zona.</p>
+      <div class="btns">
+        <a href="tel:+56223784300" class="btn btn-white"><i class="fas fa-phone-alt"></i> Llamar: +56 2 2378 4300</a>
+        <a href="internacional-v3.html" class="btn btn-outline-white"><i class="fas fa-globe"></i> Ver Red
+          Internacional</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="logo-viollier.png" alt="VYAA"></div>
+          <p class="footer-desc">Liquidadores de seguros con más de 60 años de trayectoria y presencia nacional.</p>
+          <div class="footer-socials">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index-v3.html">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="sucursales-v3.html">Sucursales</a></li>
+            <li><a href="internacional-v3.html">Red Internacional</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><span>+56 2 2378 4300</span></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>contacto@vyaa.cl</span></div>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>La Concepción 322, Piso 13,
+              Providencia, Santiago</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 VYAA Liquidadores de Seguros. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll
+    const hdr = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => { hdr.classList.toggle('scrolled', window.scrollY > 40); });
+
+    // Hamburger
+    const ham = document.getElementById('hamburger');
+    const nav = document.getElementById('mainNav');
+    const cls = document.getElementById('navClose');
+    ham.addEventListener('click', () => { nav.classList.add('is-open'); ham.classList.add('is-open'); });
+    function closeNav() { nav.classList.remove('is-open'); ham.classList.remove('is-open'); }
+    cls.addEventListener('click', closeNav);
+    nav.querySelectorAll('a:not(#dropServiciosToggle)').forEach(a => a.addEventListener('click', closeNav));
+    document.getElementById('dropServiciosToggle').addEventListener('click', e => {
+      if (window.innerWidth <= 768) { e.preventDefault(); e.stopPropagation(); document.getElementById('dropServicios').classList.toggle('is-open'); }
+    });
+
+    // Filtros
+    const tabs = document.querySelectorAll('.filter-tab');
+    const groups = document.querySelectorAll('.section-group');
+    const countEl = document.getElementById('count');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const f = tab.dataset.filter;
+        groups.forEach(g => {
+          const show = f === 'all' || g.dataset.type === f;
+          g.style.display = show ? 'block' : 'none';
+        });
+        const counts = { all: 17, sucursal: 9, corresponsal: 8 };
+        // Asegurar que al cargar 'all' todo esté visible
+        groups.forEach(g => g.style.display = 'block');
+        countEl.textContent = counts[f];
+      });
+    });
+  </script>
+</body>
+
+</html>

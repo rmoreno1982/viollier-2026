@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Internacional — VYAA Liquidadores de Seguros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/v3-main.css">
+  <style>
+    /* ══ HERO ══════════════════════════════════════════ */
+    .page-hero {
+      position: relative;
+      padding: 160px 0 130px;
+      background:
+        linear-gradient(160deg, rgba(11, 31, 69, 0.80) 0%, rgba(22, 45, 94, 0.68) 50%, rgba(26, 86, 219, 0.22) 100%),
+        url('https://images.unsplash.com/photo-1444090542259-0af8fa96557e?w=1600&q=80&auto=format') center/cover no-repeat;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: var(--white);
+      clip-path: polygon(0 55%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .page-hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-pill {
+      background: rgba(26, 86, 219, 0.3);
+      border: 1px solid rgba(26, 86, 219, 0.5);
+      border-radius: 100px;
+      padding: 0.4rem 1.1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      backdrop-filter: blur(8px);
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      margin-bottom: 1.2rem;
+      line-height: 1.1;
+      color: #fff !important;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .page-hero-desc {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 1.05rem;
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .hero-stats-row {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .hs {
+      text-align: center;
+    }
+
+    .hs-num {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .hs-num sup {
+      font-size: 1.3rem;
+    }
+
+    .hs-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #93c5fd;
+      margin-top: 0.3rem;
+    }
+
+    /* ══ MAIN LAYOUT: mapa arriba + grid de regiones abajo ══ */
+    .map-section {
+      background: var(--white);
+      padding: 6rem 0 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .map-section .section-heading {
+      margin-bottom: 2rem;
+    }
+
+    #leafletMap {
+      width: 100%;
+      height: 520px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(11, 31, 69, 0.12);
+      border: 1px solid var(--gray-200);
+      position: relative;
+      z-index: 1;
+      background: #e8edf2;
+    }
+
+    .map-instruction {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    /* ══ PANEL LATERAL (reutilizado, ahora con paleta clara) ══ */
+    #branch-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: min(420px, 92vw);
+      transform: translateX(110%);
+      transition: transform 360ms cubic-bezier(.2, .9, .2, 1);
+      z-index: 1202;
+      display: flex;
+      align-items: stretch;
+    }
+
+    #branch-panel[aria-hidden="false"] {
+      transform: translateX(0);
+    }
+
+    .branch-panel-inner {
+      background: #fff;
+      box-shadow: -40px 0 80px rgba(11, 31, 69, 0.18);
+      width: 100%;
+      overflow: auto;
+      border-left: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+    }
+
+    #branch-panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.8rem 1.8rem 1.2rem;
+      border-bottom: 3px solid var(--blue);
+      background: var(--navy);
+      flex-shrink: 0;
+    }
+
+    #branch-panel-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: #fff;
+      margin: 0;
+      flex: 1;
+      line-height: 1.25;
+    }
+
+    #branch-panel-close {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #branch-panel-close:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+
+    #branch-panel-body {
+      padding: 1.8rem;
+      font-size: 0.88rem;
+      color: var(--ink);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    #branch-panel-body .bp-empresa {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.92rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    #branch-panel-body a {
+      color: var(--blue);
+    }
+
+    #branch-panel-body .bp-sep {
+      border: none;
+      border-top: 1px solid var(--gray-200);
+      margin: 1rem 0;
+    }
+
+    #branch-panel-body .bp-mapbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      padding: 0.45rem 1rem;
+      background: var(--navy);
+      color: #fff !important;
+      text-decoration: none !important;
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    #branch-panel-body .bp-mapbtn:hover {
+      background: var(--navy-mid);
+    }
+
+    #branch-panel-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 31, 69, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 1201;
+    }
+
+    #branch-panel-backdrop[aria-hidden="false"] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ══ GRID DE REGIONES ══════════════════════════════ */
+    .regions-section {
+      padding: 5rem 0 7rem;
+      background: var(--white);
+      position: relative;
+      z-index: 4;
+    }
+
+    .regions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.6rem;
+    }
+
+    /* REGION CARD — expand reveal */
+    .region-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .region-card:hover {
+      box-shadow: 0 12px 36px rgba(11, 31, 69, 0.11);
+      transform: translateY(-3px);
+    }
+
+    .region-card-header {
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid var(--gray-100);
+      background: var(--off-white);
+      transition: background 0.2s;
+    }
+
+    .region-card:hover .region-card-header {
+      background: var(--gray-100);
+    }
+
+    .region-card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .region-card-name {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      flex: 1;
+    }
+
+    .region-card-count {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      background: var(--gray-200);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    .region-card-countries {
+      padding: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pais-tag {
+      padding: 0.42rem 1rem;
+      border-radius: 100px;
+      background: #fff;
+      border: 1.5px solid var(--gray-200);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .pais-tag:hover {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11, 31, 69, 0.2);
+    }
+
+    .pais-tag.main-tag {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .pais-tag.main-tag:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    /* ══ CTA FINAL ══════════════════════════════════════ */
+    .cta-strip {
+      background: var(--navy);
+      padding: 6rem 0;
+      text-align: center;
+      position: relative;
+      clip-path: polygon(0 8%, 100% 0%, 100% 100%, 0% 100%);
+      margin-top: -2rem;
+    }
+
+    .cta-strip h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .cta-strip p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 2.4rem;
+    }
+
+    .cta-strip .btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Leaflet popup */
+    .v3-popup .leaflet-popup-content-wrapper {
+      background: var(--navy);
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      box-shadow: 0 8px 32px rgba(11, 31, 69, 0.35);
+      border: none;
+    }
+
+    .v3-popup .leaflet-popup-tip {
+      background: var(--navy);
+    }
+
+    .v3-popup .leaflet-popup-content {
+      margin: 0.9rem 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .v3-popup .leaflet-popup-close-button {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .v3-popup .leaflet-popup-close-button:hover {
+      color: #fff !important;
+    }
+
+    @media(max-width:768px) {
+      .page-hero {
+        padding: 130px 0 90px;
+      }
+
+      .hero-stats-row {
+        gap: 1.5rem;
+      }
+
+      #leafletMap {
+        height: 360px;
+      }
+
+      .regions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="container">
+      <div class="header-integrated">
+        <div class="logo"><a href="index-v3.html"><img src="logo-viollier.png" alt="VYAA"></a></div>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="header-right">
+          <div class="top-line">
+            <div class="lang-flags">
+              <a href="#"><span class="fi fi-cl"></span></a>
+              <a href="#"><span class="fi fi-gb"></span></a>
+            </div>
+            <a href="tel:+56223784300" class="phone-link"><i class="fas fa-phone-alt"></i> +56 2 2378 4300</a>
+            <a href="#" class="btn-header">Ingreso Clientes</a>
+          </div>
+          <nav id="mainNav">
+            <button class="nav-close-btn" id="navClose">×</button>
+            <ul>
+              <li><a href="index-v3.html">Inicio</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li class="dropdown" id="dropServicios">
+                <a href="#" id="dropServiciosToggle">Servicios y Equipos <span class="drop-arrow">▾</span></a>
+                <div class="dropdown-content">
+                  <a href="#">Crédito y Garantías</a><a href="#">Ingeniería</a>
+                  <a href="#">Transporte y Casco</a><a href="#">Masivo / Líneas Personales</a>
+                  <a href="#">Robo</a><a href="#">Recursos Naturales</a>
+                  <a href="#">Responsabilidad Civil y Riesgos Financieros</a>
+                  <a href="#">Comité Ejecutivo</a><a href="#">Eventos Catastróficos</a>
+                </div>
+              </li>
+              <li><a href="sucursales-v3.html">Sucursales</a></li>
+              <li><a href="internacional-v3.html" class="active">Red Internacional</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="hero-meta">
+        <span class="hero-meta-pill"><i class="fas fa-globe"></i> &nbsp;Red Internacional</span>
+        <span class="hero-meta-pill"><i class="fas fa-handshake"></i> &nbsp;Adjusteck LLC</span>
+      </div>
+      <h1>Cobertura Global<br>para tus Siniestros</h1>
+      <p class="page-hero-desc">A través de nuestra alianza estratégica global, ofrecemos capacidad de respuesta en más
+        de 40 países en los 5 continentes.</p>
+      <div class="hero-stats-row">
+        <div class="hs">
+          <div class="hs-num"><sup>+</sup>40</div>
+          <div class="hs-label">Países</div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">5</div>
+          <div class="hs-label">Continentes</div>
+        </div>
+        <div class="hs">
+          <div class="hs-num"><sup>+</sup>40</div>
+          <div class="hs-label">Años de alianza</div>
+        </div>
+        <div class="hs">
+          <div class="hs-num">24/7</div>
+          <div class="hs-label">Disponibilidad</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA -->
+  <section class="map-section">
+    <div class="container">
+      <div class="section-heading">
+        <div class="eyebrow">Nuestra Presencia Mundial</div>
+        <h2>Haz clic en cualquier país</h2>
+      </div>
+      <div class="map-wrapper">
+        <div id="leafletMap"></div>
+      </div>
+      <p class="map-instruction"><i class="fas fa-mouse-pointer"></i> Haz clic sobre los puntos para ver los datos de
+        cada corresponsal</p>
+    </div>
+  </section>
+
+  <!-- REGIONES -->
+  <section class="regions-section">
+    <div class="container">
+      <div class="section-heading">
+        <div class="eyebrow">Directorio</div>
+        <h2>Presencia por Región</h2>
+        <p>Selecciona un país para ver los datos de contacto del corresponsal.</p>
+      </div>
+      <div class="regions-grid">
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌎</div>
+            <span class="region-card-name">América del Norte</span>
+            <span class="region-card-count">4</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag">Estados Unidos</span>
+            <span class="pais-tag">Canadá</span>
+            <span class="pais-tag">México</span>
+            <span class="pais-tag">Bahamas</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌎</div>
+            <span class="region-card-name">América Central y Caribe</span>
+            <span class="region-card-count">7</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag">Costa Rica</span>
+            <span class="pais-tag">El Salvador</span>
+            <span class="pais-tag">Guatemala</span>
+            <span class="pais-tag">Honduras</span>
+            <span class="pais-tag">Panamá</span>
+            <span class="pais-tag">Puerto Rico</span>
+            <span class="pais-tag">República Dominicana</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌎</div>
+            <span class="region-card-name">América del Sur</span>
+            <span class="region-card-count">9</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag">Argentina</span>
+            <span class="pais-tag">Bolivia</span>
+            <span class="pais-tag">Brasil</span>
+            <span class="pais-tag">Colombia</span>
+            <span class="pais-tag">Ecuador</span>
+            <span class="pais-tag">Paraguay</span>
+            <span class="pais-tag">Perú</span>
+            <span class="pais-tag">Uruguay</span>
+            <span class="pais-tag">Venezuela</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌍</div>
+            <span class="region-card-name">Europa</span>
+            <span class="region-card-count">7</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag main-tag">Reino Unido ★</span>
+            <span class="pais-tag">España</span>
+            <span class="pais-tag">Italia</span>
+            <span class="pais-tag">Noruega</span>
+            <span class="pais-tag">Polonia</span>
+            <span class="pais-tag">Suiza</span>
+            <span class="pais-tag">Eslovaquia</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌍</div>
+            <span class="region-card-name">África y Medio Oriente</span>
+            <span class="region-card-count">4</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag">Sudáfrica</span>
+            <span class="pais-tag">Emiratos Árabes</span>
+            <span class="pais-tag">Irak</span>
+            <span class="pais-tag">Jordania</span>
+          </div>
+        </div>
+
+        <div class="region-card">
+          <div class="region-card-header">
+            <div class="region-card-icon">🌏</div>
+            <span class="region-card-name">Asia y Oceanía</span>
+            <span class="region-card-count">6</span>
+          </div>
+          <div class="region-card-countries">
+            <span class="pais-tag">China</span>
+            <span class="pais-tag">Japón</span>
+            <span class="pais-tag">India</span>
+            <span class="pais-tag">Singapur</span>
+            <span class="pais-tag">Corea del Sur</span>
+            <span class="pais-tag">Australia</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL LATERAL -->
+  <div id="branch-panel-backdrop" aria-hidden="true"></div>
+  <aside id="branch-panel" aria-hidden="true">
+    <div class="branch-panel-inner">
+      <div id="branch-panel-header">
+        <h3 id="branch-panel-title"></h3>
+        <button id="branch-panel-close" aria-label="Cerrar">✕</button>
+      </div>
+      <div id="branch-panel-body"></div>
+    </div>
+  </aside>
+
+  <!-- CTA -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>¿Necesita cobertura internacional?</h2>
+      <p>Nuestro equipo y la red Adjusteck están listos para gestionar su siniestro en cualquier parte del mundo.</p>
+      <div class="btns">
+        <a href="#" class="btn btn-white"><i class="fas fa-envelope"></i> Contactar</a>
+        <a href="index-v3.html" class="btn btn-outline-white"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="logo-viollier.png" alt="VYAA"></div>
+          <p class="footer-desc">Liquidadores de seguros con más de 60 años de trayectoria y presencia nacional.</p>
+          <div class="footer-socials">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index-v3.html">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="sucursales-v3.html">Sucursales</a></li>
+            <li><a href="internacional-v3.html">Red Internacional</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <div class="footer-contact-item"><i class="fas fa-phone-alt"></i><span>+56 2 2378 4300</span></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>contacto@vyaa.cl</span></div>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>La Concepción 322, Piso 13,
+              Providencia, Santiago</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 VYAA Liquidadores de Seguros. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script>
+    // ── Header scroll
+    const hdr = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => { hdr.classList.toggle('scrolled', window.scrollY > 40); });
+
+    // ── Nav hamburger
+    const ham = document.getElementById('hamburger');
+    const nav = document.getElementById('mainNav');
+    const cls = document.getElementById('navClose');
+    ham.addEventListener('click', () => { nav.classList.add('is-open'); ham.classList.add('is-open'); });
+    function closeNav() { nav.classList.remove('is-open'); ham.classList.remove('is-open'); }
+    cls.addEventListener('click', closeNav);
+    nav.querySelectorAll('a:not(#dropServiciosToggle)').forEach(a => a.addEventListener('click', closeNav));
+    document.getElementById('dropServiciosToggle').addEventListener('click', e => {
+      if (window.innerWidth <= 768) { e.preventDefault(); e.stopPropagation(); document.getElementById('dropServicios').classList.toggle('is-open'); }
+    });
+
+    // ── Contactos
+    const CONTACTOS = {
+      'bahamas': { titulo: 'Bahamas — Nassau', html: `<div class="bp-empresa">Algoma Adjusters (Bahamas) Ltd.</div><p><strong>Steven M. Dillet</strong><br>P.O. Box N-4289, Nassau, N.P., Bahamas<br>Tel: (1-242) 325 55 91 · Fax: (1-242) 322 63 53</p>` },
+      'canada': { titulo: 'Canadá — Vancouver', html: `<div class="bp-empresa">Maxwell Claims Services Inc.</div><p><strong>Ian Maxwell · Marion Maxwell</strong><br>301 – 2515 Burrard Street, Vancouver BC V6J<br>Tel: (1-604) 683 56 65<br><a href="mailto:ian@maxwellclaims.net">ian@maxwellclaims.net</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/place/301+Burrard+St,+Vancouver" target="_blank">📍 Ver en mapa</a>` },
+      'estados unidos': { titulo: 'Estados Unidos — Virginia & New York', html: `<div class="bp-empresa">Adjusteck LLC</div><p><strong>Virginia</strong><br>125 East Hirst Road, Suite 3C, Purcellville, VA 20132<br>Tel: 1 540 338 7151<br><a href="mailto:info@adjusteck.com">info@adjusteck.com</a></p><a class="bp-mapbtn" href="https://goo.gl/maps/3z3M1pSobou34v9z8" target="_blank">📍 Virginia</a><p style="margin-top:.8rem"><strong>New York</strong><br>80 Broad Street, 5th floor, New York, NY 10004<br>Tel: 1 833 494 1294</p><a class="bp-mapbtn" href="https://goo.gl/maps/VSeoFudyfM45nosv6" target="_blank">📍 New York</a>` },
+      'mexico': { titulo: 'México — Monterrey · CDMX · Jalisco', html: `<div class="bp-empresa">Kimsi & Associates</div><p><strong>Monterrey</strong> — José Luis Nava Valtierra<br><a href="mailto:jlnava@kimsiandassociates.com">jlnava@kimsiandassociates.com</a></p><div class="bp-sep"></div><p><strong>Ciudad de México</strong> — Eduardo Kimsi Palacios<br>Av. Insurgentes Sur 1647, CDMX<br>Tel: (5255) 1555 8314<br><a href="mailto:ekimsi@kimsiandassociates.com">ekimsi@kimsiandassociates.com</a></p><div class="bp-sep"></div><p><strong>Jalisco</strong> — Martha García González<br>Av. de las Américas 1545, Piso 20, Guadalajara<br><a href="mailto:mgarcia@kimsiandassociates.com">mgarcia@kimsiandassociates.com</a></p>` },
+      'costa rica': { titulo: 'Costa Rica — San José', html: `<div class="bp-empresa">Mollercen S.A. Ajustadores</div><p><strong>Victor Brenes · Ginette Brenes</strong><br>Sabana Sur-Oeste, Casa Nº 26, Urb. Loma Linda, San José<br>Tel: (506) 290 23 29<br><a href="mailto:moller@racsa.co.cr">moller@racsa.co.cr</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/search/Sabana+Sur-Oeste,San+Jos%C3%A9,+Costa+Rica" target="_blank">📍 Ver en mapa</a>` },
+      'el salvador': { titulo: 'El Salvador — San Salvador', html: `<div class="bp-empresa">Gibson & Co., Suc.</div><p><strong>Carlos Ernesto Perdomo</strong><br>17, Calle Poniente 320, San Salvador<br>Tel: (503) 281 55 55<br><a href="mailto:cperdomo@gibson.com.sv">cperdomo@gibson.com.sv</a></p>` },
+      'guatemala': { titulo: 'Guatemala — Ciudad de Guatemala', html: `<div class="bp-empresa">Moller S.A. Guatemala</div><p><strong>Henry Lewin</strong><br>Tel: (502) 2335 22 70<br><a href="mailto:mollergt@mollergroup.net">mollergt@mollergroup.net</a></p>` },
+      'honduras': { titulo: 'Honduras — Tegucigalpa', html: `<div class="bp-empresa">Moller de Honduras S.A. de C.V.</div><p><strong>Mauricio Montes</strong><br>Colonia América 2, Calle Nº 1805, P.O. Box 739, Tegucigalpa<br>Tel: (504) 234.30.41<br><a href="mailto:moller@netsys.hn">moller@netsys.hn</a></p>` },
+      'panama': { titulo: 'Panamá — Ciudad de Panamá', html: `<div class="bp-empresa">Asesorías, Inspecciones y Recobros, S.A.</div><p><strong>Cinthya Correa</strong> (Gte. Marítimo) — Cel: (507) 66769171<br><strong>José Saldaña</strong> (Inspector) — Cel: (507) 66711080<br>Tel: (507) 399 69 00<br><a href="mailto:c.correa@airpma.net">c.correa@airpma.net</a></p>` },
+      'puerto rico': { titulo: 'Puerto Rico — San Juan', html: `<div class="bp-empresa">Cunningham Lindsay (Americas) Inc.</div><p><strong>Peter Clarke · Ivelisse Urbán</strong><br>Puerto Home Mortgage Plaza, Suite 1110, 268 Ponce de Leon Ave., Hato Rey<br>Tel: (1-787) 250 7927<br><a href="mailto:pcc@cunninghamlidsaypr.com">pcc@cunninghamlidsaypr.com</a></p>` },
+      'republica dominicana': { titulo: 'República Dominicana — Santo Domingo', html: `<div class="bp-empresa">Frederic Schad, Inc.</div><p><strong>Frederic Schad · Nikda Burgos</strong><br>José Gabriel García 26, 2° piso, Ciudad Colonial, Santo Domingo<br>Tel: (1-809) 221 80 00<br><a href="mailto:mail@fschad.com">mail@fschad.com</a></p>` },
+      'argentina': { titulo: 'Argentina — Buenos Aires', html: `<div class="bp-empresa">Ascoli & Weil</div><p><strong>Francisco Weil</strong><br>Tte. Gral. J. D. Perón 328, 4° Piso, Buenos Aires<br>Tel: (54-11) 434 20 081<br><a href="mailto:fweil@ascoliweil.com.ar">fweil@ascoliweil.com.ar</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/place/Pres.+Tte.+Gral.+Juan+Domingo+Per%C3%B3n+328,+Buenos+Aires" target="_blank">📍 Ver en mapa</a>` },
+      'bolivia': { titulo: 'Bolivia — La Paz · Cochabamba · Santa Cruz', html: `<div class="bp-empresa">Enríquez & Long SRL</div><p><strong>La Paz</strong> — David Long<br>Tel: (591) 2243-4427 · <a href="mailto:dlong@entelnet.bo">dlong@entelnet.bo</a></p><div class="bp-sep"></div><p><strong>Cochabamba</strong> — Javier Calderón<br>Cel: (591) 722-66180 · <a href="mailto:jjcalderon91@hotmail.com">jjcalderon91@hotmail.com</a></p><div class="bp-sep"></div><p><strong>Santa Cruz</strong> — Mario Alvarado<br>Cel: (591) 708-11601 · <a href="mailto:aybsrl@cotas.com.bo">aybsrl@cotas.com.bo</a></p>` },
+      'brasil': { titulo: 'Brasil — Recife · Vitória · Río · São Paulo · Santos', html: `<p><strong>Recife Port</strong> — Régulo Nordeste S/A<br>Tel: 55 81 3224 2323 · <a href="mailto:regulo@hotlink.com.br">regulo@hotlink.com.br</a></p><div class="bp-sep"></div><p><strong>Vitória Port</strong> — D.M.G Vistorias<br>Tel: (27) 2122-3741 · <a href="mailto:dmg.coimex@dmgsinistro.com.br">dmg.coimex@dmgsinistro.com.br</a></p><div class="bp-sep"></div><p><strong>Rio de Janeiro Port</strong> — Pentágono Serviços<br>Paulo Roberto · Tel: 55 21 2234 0017<br><a href="mailto:prab@pentagonoseg.com.br">prab@pentagonoseg.com.br</a></p><div class="bp-sep"></div><p><strong>São Paulo</strong> — Cunningham Lindsey International<br>Martin E. Faller · Tel: (55-11) 3060-2200<br><a href="mailto:MFaller@cl-int.com">MFaller@cl-int.com</a></p><div class="bp-sep"></div><p><strong>Santos Port</strong> — Smera Comissária<br>Tel: 55 11 13 2101 0300 · <a href="mailto:smera@uol.com.br">smera@uol.com.br</a></p>` },
+      'colombia': { titulo: 'Colombia — Bogotá', html: `<div class="bp-empresa">CRM Consulting Services</div><p><strong>Juan Carlos Martínez P. · Oscar Vanegas</strong><br>Tel: (57-1) 282 7970<br><a href="mailto:jcm@cargorisk.com">jcm@cargorisk.com</a></p>` },
+      'ecuador': { titulo: 'Ecuador — Quito', html: `<div class="bp-empresa">Special Service Adjustment Cía. Ltda.</div><p><strong>Ricardo Villagómez</strong><br>Francisco de Izázaga Nº 45-07, Quito<br>Tel: 593-2 227 65 68<br><a href="mailto:rvillagomez@ssadjustment.com">rvillagomez@ssadjustment.com</a></p>` },
+      'paraguay': { titulo: 'Paraguay — Asunción', html: `<div class="bp-empresa">ETICA. Peritos Liquidadores</div><p>Tel: (595.21) 442850<br><strong>Víctor A. Duarte Schiefer</strong> — Cel: (595.981) 205406<br><a href="mailto:beni@etica.com.py">beni@etica.com.py</a><br><strong>Antonio Franco</strong> — Cel: (595.981) 205407<br><a href="mailto:transportes@etica.com.py">transportes@etica.com.py</a></p>` },
+      'peru': { titulo: 'Perú — Lima', html: `<div class="bp-empresa">BMB Ajustadores de Seguros</div><p><strong>Martin Bereche Helguero</strong><br>Calle Germán Schreiber 184, Of. 901, San Isidro, Lima<br>Cel: +51 975 141 744<br><a href="mailto:mbereche@bmbajustadores.com">mbereche@bmbajustadores.com</a></p><a class="bp-mapbtn" href="https://maps.app.goo.gl/ePDT5oDpjgHbqUX96" target="_blank">📍 Ver en mapa</a>` },
+      'uruguay': { titulo: 'Uruguay — Montevideo', html: `<div class="bp-empresa">Ascoli & Weil</div><p><strong>Laura Pollero</strong><br>Cel: (598) 94 42 25 46<br><a href="mailto:pollero@netgate.com.uy">pollero@netgate.com.uy</a></p>` },
+      'venezuela': { titulo: 'Venezuela — Caracas', html: `<div class="bp-empresa">W. Moller C.A.</div><p><strong>Claudia Moller · Bruno Moller</strong><br>Centro Empresarial La Lagunita, Piso 5, Of. 511, Caracas<br>Tel: (58-212) 815 06 68<br><a href="mailto:claudia.moller@mollergroup.net">claudia.moller@mollergroup.net</a></p>` },
+      'reino unido': { titulo: 'Reino Unido — Londres ★ Adjusteck LLC', html: `<div class="bp-empresa">Adjusteck LLC — Oficina Principal</div><p>70 Gracechurch Street, London, UK EC3V 0HR<br>Tel: 44 203 968 8626<br><a href="mailto:info@adjusteck.com">info@adjusteck.com</a> · <a href="https://adjusteck.com" target="_blank">adjusteck.com</a></p><a class="bp-mapbtn" href="https://goo.gl/maps/C75YYooeLqLFQ9HLA" target="_blank">📍 Ver en mapa</a>` },
+      'espana': { titulo: 'España — Madrid · Barcelona', html: `<p><strong>Madrid — Oterin S.A.</strong><br>Francisco López de la Serna<br>Orense 32, Of. 7, 28020 Madrid<br>Tel: (34-91) 556 48 51 · <a href="mailto:lopezf@oterin.com">lopezf@oterin.com</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/place/Calle+de+Orense,+32,+28020+Madrid" target="_blank">📍 Oterin Madrid</a><div class="bp-sep"></div><p><strong>Madrid — Grisk Peritos</strong><br>Velázquez 27, 28001 Madrid<br><a href="mailto:grisk@griskperitos.com">grisk@griskperitos.com</a></p><div class="bp-sep"></div><p><strong>Barcelona — Grisk Peritos</strong><br>Sant Elies 29–35, 08006 Barcelona<br><a href="mailto:grisk@griskperitos.com">grisk@griskperitos.com</a></p><a class="bp-mapbtn" href="https://goo.gl/maps/3UwcvtrJUBQ6p33D8" target="_blank">📍 Barcelona</a>` },
+      'italia': { titulo: 'Italia — Milán', html: `<div class="bp-empresa">STB Europe – Shipping Technical Bureau Srl.</div><p><strong>Capt. Cesare Cavallo · Marco Beuf</strong><br>Vía Polibio, 3 – 20144 Milano<br>Tel: (39-2) 4801 2120<br><a href="mailto:cesare.cavallo@stbeurope.it">cesare.cavallo@stbeurope.it</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/place/Via+Polibio,+3,+20144+Milano" target="_blank">📍 Ver en mapa</a>` },
+      'noruega': { titulo: 'Noruega — Billingstad', html: `<div class="bp-empresa">Lagerström & Möller AS</div><p><strong>Peter Lagerström</strong><br>N-1361 Billingstad, Norway<br>Tel: (47-66) 848500<br>Fax: (47-66) 847252</p>` },
+      'polonia': { titulo: 'Polonia — Varsovia', html: `<div class="bp-empresa">ICRC Loss Adjusters</div><p>al. Waszyngtona 20/26, 03-910 Warsaw<br>Tel: 48 22 404 97 76<br><a href="mailto:office@icrc-la.com">office@icrc-la.com</a></p><a class="bp-mapbtn" href="https://goo.gl/maps/oSs5dewx12xZ6pZ19" target="_blank">📍 Ver en mapa</a>` },
+      'suiza': { titulo: 'Suiza — Ginebra', html: `<p><strong>Eric Capewell</strong><br>Chemin De Normandie 14, PO Box 449, 1211 Geneva 12<br>Tel: +41 22 369 0066<br><a href="mailto:eric.capewell@ctcplc.com">eric.capewell@ctcplc.com</a></p>` },
+      'eslovaquia': { titulo: 'Eslovaquia — Bratislava', html: `<div class="bp-empresa">Gielisch Slovakia – Expert Surveyors</div><p><strong>Zoltán Diózeghy</strong><br>Hattalova 8, 831 03 Bratislava<br>Tel: (421-2) 4463 0738<br><a href="mailto:dioszeghy@expertsurveys.sk">dioszeghy@expertsurveys.sk</a></p>` },
+      'emiratos arabes': { titulo: 'Emiratos Árabes Unidos — Dubai', html: `<div class="bp-empresa">Cunningham Lindsey Middle East</div><p><strong>David Summers</strong><br>Apt 207, Zalfa Building, Garhoud, PO Box 3453, Dubai<br>Tel: (971-4) 286 86 36<br><a href="mailto:clme@emirates.net.ae">clme@emirates.net.ae</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/search/Apt+207,+Zalfa+Building,+Garhoud,+Dubai" target="_blank">📍 Ver en mapa</a>` },
+      'irak': { titulo: 'Irak — Basora', html: `<div class="bp-empresa">Med. Bureau</div><p><strong>Mohammed Abdullah</strong><br>Al-Abaseyah – Mahallad 306, Basrah<br>Cel: (962-79) 5539498<br><a href="mailto:med.bureau@link.net.jo">med.bureau@link.net.jo</a></p>` },
+      'jordania': { titulo: 'Jordania — Amman', html: `<div class="bp-empresa">N.E. Azzam & Partners</div><p><strong>Reyad Arsalan</strong><br>PO Box 5333, Amman, Jordan<br>Tel: (962-6) 593 02 54<br><a href="mailto:nazzam@go.com.jo">nazzam@go.com.jo</a></p>` },
+      'sudafrica': { titulo: 'Sudáfrica — Ciudad del Cabo', html: `<div class="bp-empresa">Proloss Adjusters</div><p>WJM Hse, Logan Way Pinelands, Cape Town, 7405<br>Tel: 27 21 532 3621<br><a href="mailto:capetown@proloss.co.za">capetown@proloss.co.za</a></p><a class="bp-mapbtn" href="https://goo.gl/maps/s1Tvkv1GaPuXRb19A" target="_blank">📍 Ver en mapa</a>` },
+      'china': { titulo: 'China — Guangzhou · Shanghai', html: `<p><strong>Guangzhou</strong> — Pierre Leong Adjusters / Phyllex Leung<br>2503-4, 25/F., CITIC Ming Yue Ge Bldg., Guangzhou<br>Tel: 86-20 8735 8337</p><div class="bp-sep"></div><p><strong>Shanghai</strong> — Shanghai Dictum Loss Adjusters<br>Eddie Chen · Tel: 86-21-3414 0801<br><a href="mailto:eddiechen@dictum.cn">eddiechen@dictum.cn</a></p>` },
+      'japon': { titulo: 'Japón — Yokohama', html: `<div class="bp-empresa">Cornes & Co., Ltd.</div><p><strong>M. Ueno · S.J. Morimoto</strong><br>Tel: (81-78) 332 34 21<br><a href="mailto:m_ueno@kobe.cornes.co.jp">m_ueno@kobe.cornes.co.jp</a></p><a class="bp-mapbtn" href="https://www.google.cl/maps/search/Yokohama+Japan+Cornes" target="_blank">📍 Ver en mapa</a>` },
+      'corea del sur': { titulo: 'Corea del Sur — Seúl', html: `<div class="bp-empresa">KORHI Average Adjusters & Surveyors Ltd.</div><p><strong>D.R. Kim</strong><br>Rm.1708, Chung Dong Building, 15-5 Chung-Dong, Chung-Ku, Seoul<br>Tel: +82 2752 1891<br><a href="mailto:drkim@korhi.co.kr">drkim@korhi.co.kr</a></p>` },
+      'india': { titulo: 'India — Gurgaon', html: `<div class="bp-empresa">Proclaim Loss Assessors</div><p>718, JMD Megapolis, Sector-48, Sohna Road, Gurgaon<br>Tel: 91 124 600 2678<br><a href="mailto:gurugram@proclaim.co.in">gurugram@proclaim.co.in</a></p>` },
+      'singapur': { titulo: 'Singapur', html: `<div class="bp-empresa">Insight Adjusters and Surveyors Pte. Ltd.</div><p><strong>Andrew Lee · Wilson Tan</strong><br>14 Robinson Road #11-00, Far East Finance Building, Singapore<br>Tel: (65) 224 85 00<br><a href="mailto:insight@singnet.com.sg">insight@singnet.com.sg</a></p>` },
+      'australia': { titulo: 'Australia — Sydney', html: `<div class="bp-empresa">Manu Marine (NSW) Pty. Ltd.</div><p><strong>Capt. Iain Frost</strong><br>P.O. Box 184, Cherry Brook, NSW 2126, Sydney<br>Tel: (61-2) 9651 5922<br><a href="mailto:iain.frost@manumarine.com">iain.frost@manumarine.com</a></p>` },
+    };
+
+    function norm(s) { return (s || '').toLowerCase().replace(/\s*[★*]\s*/g, '').normalize('NFD').replace(/\p{Diacritic}/gu, '').trim(); }
+    function buscar(label) {
+      const k = norm(label);
+      if (CONTACTOS[k]) return CONTACTOS[k];
+      for (const [key, v] of Object.entries(CONTACTOS)) { if (k.startsWith(key) || key.startsWith(k)) return v; }
+      return null;
+    }
+
+    // ── Panel
+    const panel = document.getElementById('branch-panel');
+    const backdrop = document.getElementById('branch-panel-backdrop');
+    const closeBtn = document.getElementById('branch-panel-close');
+    const titleEl = document.getElementById('branch-panel-title');
+    const bodyEl = document.getElementById('branch-panel-body');
+
+    function openPanel(label) {
+      const d = buscar(label);
+      titleEl.innerHTML = d ? d.titulo : label.replace(/\s*[★*]\s*/g, '').trim();
+      bodyEl.innerHTML = d ? d.html : '<p style="color:#888;font-style:italic">Información no disponible.</p>';
+      panel.setAttribute('aria-hidden', 'false');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePanel() {
+      panel.setAttribute('aria-hidden', 'true');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    closeBtn.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+    document.querySelectorAll('.pais-tag').forEach(tag => {
+      tag.style.cursor = 'pointer';
+      tag.setAttribute('role', 'button');
+      tag.setAttribute('tabindex', '0');
+      tag.addEventListener('click', () => openPanel(tag.textContent));
+      tag.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(tag.textContent); } });
+    });
+
+    // ── Mapa Leaflet (tile claro)
+    const map = L.map('leafletMap', {
+      center: [20, 10], zoom: 2, minZoom: 2, maxZoom: 6,
+      scrollWheelZoom: false, worldCopyJump: true, attributionControl: false
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 19 }).addTo(map);
+    L.control.attribution({ prefix: '<span style="color:#aaa">© OpenStreetMap · © CARTO</span>' }).addTo(map);
+
+    function makeIcon(color, size) {
+      return L.divIcon({
+        className: '',
+        html: `<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;border:2px solid #fff;box-shadow:0 2px 8px ${color}88;cursor:pointer;"></div>`,
+        iconSize: [size, size], iconAnchor: [size / 2, size / 2]
+      });
+    }
+
+    const presencia = [
+      [37.09, -95.71, 'Estados Unidos', 'corresponsal'], [56.13, -106.35, 'Canadá', 'corresponsal'],
+      [25.00, -77.35, 'Bahamas', 'corresponsal'], [23.63, -102.55, 'México', 'corresponsal'],
+      [10.00, -83.00, 'Costa Rica', 'corresponsal'], [13.79, -88.90, 'El Salvador', 'corresponsal'],
+      [15.78, -90.23, 'Guatemala', 'corresponsal'], [14.07, -87.21, 'Honduras', 'corresponsal'],
+      [8.99, -79.52, 'Panamá', 'corresponsal'], [18.22, -66.59, 'Puerto Rico', 'corresponsal'],
+      [18.74, -70.16, 'República Dominicana', 'corresponsal'],
+      [-33.45, -70.67, 'Chile', 'oficina'],
+      [4.57, -74.29, 'Colombia', 'corresponsal'], [-14.24, -51.93, 'Brasil', 'corresponsal'],
+      [-38.42, -63.62, 'Argentina', 'corresponsal'], [-9.19, -75.02, 'Perú', 'corresponsal'],
+      [-16.29, -63.59, 'Bolivia', 'corresponsal'], [-23.44, -58.44, 'Paraguay', 'corresponsal'],
+      [-32.52, -55.77, 'Uruguay', 'corresponsal'], [1.65, -75.38, 'Ecuador', 'corresponsal'],
+      [6.42, -66.59, 'Venezuela', 'corresponsal'],
+      [51.51, -0.13, 'Reino Unido', 'oficina'],
+      [40.46, -3.75, 'España', 'corresponsal'], [41.87, 12.57, 'Italia', 'corresponsal'],
+      [51.92, 19.15, 'Polonia', 'corresponsal'], [60.47, 8.47, 'Noruega', 'corresponsal'],
+      [47.52, 14.55, 'Suiza', 'corresponsal'], [48.15, 17.11, 'Eslovaquia', 'corresponsal'],
+      [-30.56, 22.94, 'Sudáfrica', 'corresponsal'],
+      [23.42, 53.85, 'Emiratos Árabes', 'corresponsal'], [30.52, 47.77, 'Irak', 'corresponsal'],
+      [31.96, 35.95, 'Jordania', 'corresponsal'],
+      [20.59, 78.96, 'India', 'corresponsal'], [35.86, 104.20, 'China', 'corresponsal'],
+      [35.91, 127.77, 'Corea del Sur', 'corresponsal'], [36.20, 138.25, 'Japón', 'corresponsal'],
+      [1.35, 103.82, 'Singapur', 'corresponsal'], [-25.27, 133.78, 'Australia', 'corresponsal'],
+    ];
+
+    presencia.forEach(([lat, lng, nombre, tipo]) => {
+      const isMain = tipo === 'oficina';
+      const color = isMain ? '#c0392b' : '#0b1f45';
+      const size = isMain ? 16 : 10;
+      const m = L.marker([lat, lng], { icon: makeIcon(color, size) }).addTo(map);
+      const popup = `<div style="font-family:var(--font-body);">
+      <strong style="color:#fff;font-size:.88rem;">${nombre}</strong><br>
+      <span style="color:rgba(255,255,255,.55);font-size:.72rem;">${isMain ? '★ Oficina principal' : 'Corresponsal'}</span>
+    </div>`;
+      m.bindPopup(popup, { className: 'v3-popup', maxWidth: 200 });
+      m.on('click', () => openPanel(nombre));
+    });
+
+    L.polyline([[-33.45, -70.67], [-20, -50], [10, -30], [35, -15], [51.51, -0.13]], {
+      color: '#0b1f45', weight: 1, dashArray: '6,5', opacity: 0.18
+    }).addTo(map);
+
+    setTimeout(() => map.invalidateSize(), 300);
+  </script>
+</body>
+
+</html>
