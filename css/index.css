@@ -697,7 +697,7 @@
       padding: 8rem 0 6rem;
       background: var(--navy);
       position: relative;
-      clip-path: polygon(0 5%, 100% 0%, 100% 95%, 0% 100%);
+      /*clip-path: polygon(0 5%, 100% 0%, 100% 95%, 0% 100%);*/
       margin: -3rem 0;
       color: #fff;
     }
